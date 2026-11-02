@@ -1,0 +1,64 @@
+# Deploys site/ to GitHub Pages. Once a month (or by hand) it first rebuilds the place data from the latest Overture release.
+# The data lives on the `data` branch as a single commit, so main's history stays small; if a rebuild fails, the last data is deployed again.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 9 3 * *' # 3rd of each month; Overture releases land mid-month
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r scripts/requirements.txt
+      - run: python scripts/build_data.py
+      - name: Replace the data branch
+        working-directory: site/data
+        run: |
+          git init -q -b data
+          git add -A
+          git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit -qm "Data from Overture $(python -c 'import json; print(json.load(open("meta.json"))["release"])')"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data
+
+  deploy:
+    needs: refresh
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: data
+          path: site/data
+      - name: Add the Maps Embed key
+        env:
+          EMBED_KEY: ${{ secrets.MAPS_EMBED_KEY }}
+        run: sed -i "s|window.EMBED_KEY = ''|window.EMBED_KEY = '${EMBED_KEY}'|" site/config.js
+      - run: rm -rf site/data/.git
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
