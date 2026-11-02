@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EatMeowever Demo</title>
+<meta name="description" content="Can't decide where to eat? Let the cat draw a restaurant near you. California only, nothing saved.">
+<meta name="theme-color" content="#FFF0F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191321" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+<script src="config.js"></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<main>
+  <header class="top">
+    <h1>EatMeowever <span lang="zh-CN">吃什喵</span></h1>
+    <p>Can't decide where to eat? The cat draws one for you. <b>California demo.</b></p>
+  </header>
+
+  <div class="stage">
+    <button id="cat" class="catbtn" type="button" aria-label="Pet the cat">
+      <svg class="cat" viewBox="0 0 130 100" aria-hidden="true">
+        <defs><clipPath id="catclip"><path d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/></clipPath></defs>
+        <ellipse class="sh" cx="65" cy="95" rx="50" ry="5"/>
+        <g class="tail"><path class="to" d="M106 84Q125 83 124 64Q123 55 115 53"/><path class="ti" d="M106 84Q125 83 124 64Q123 55 115 53"/></g>
+        <path class="ear el" d="M22 54L28 14Q29 8 34 12L56 35Z"/>
+        <path class="ear er" d="M108 54L102 14Q101 8 96 12L74 35Z"/>
+        <path class="body" d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/>
+        <ellipse class="hi" cx="59" cy="58" rx="50" ry="35" clip-path="url(#catclip)"/>
+        <path class="bo" d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/>
+        <ellipse class="ck" cx="37" cy="74" rx="7" ry="3.8"/><ellipse class="ck" cx="93" cy="74" rx="7" ry="3.8"/>
+        <g class="eyes"><g class="bl"><ellipse cx="50" cy="64" rx="3.1" ry="4"/><ellipse cx="80" cy="64" rx="3.1" ry="4"/></g></g>
+        <g class="hap"><path d="M46 66Q50 60 54 66"/><path d="M76 66Q80 60 84 66"/></g>
+        <path class="mo" d="M58.5 72.5q3.2 3 6.5 0q3.3 3 6.5 0"/>
+        <ellipse class="paw" cx="53" cy="91" rx="11" ry="7"/><ellipse class="paw" cx="77" cy="91" rx="11" ry="7"/>
+      </svg>
+    </button>
+    <p id="say" class="say" aria-live="polite"></p>
+  </div>
+
+  <section class="card" aria-labelledby="where-h">
+    <h2 id="where-h">Where are you?</h2>
+    <button id="locate" class="btn accent" type="button">Use my location</button>
+    <label class="city">or pick a city
+      <select id="city">
+        <option value="">Choose…</option>
+      </select>
+    </label>
+    <p id="where" class="note" aria-live="polite">Your location stays in this browser. Nothing is sent or saved.</p>
+  </section>
+
+  <section class="card" aria-labelledby="how-h">
+    <h2 id="how-h">How far, what kind?</h2>
+    <div class="chips" id="miles" role="group" aria-label="Distance"></div>
+    <div class="chips" id="kinds" role="group" aria-label="Kind of food"></div>
+  </section>
+
+  <button id="draw" class="btn draw" type="button" disabled>Draw a restaurant</button>
+  <p id="count" class="note center" aria-live="polite"></p>
+
+  <article id="ticket" class="ticket" hidden aria-live="polite">
+    <p class="kind" id="t-kind"></p>
+    <h2 class="name" id="t-name"></h2>
+    <p class="addr" id="t-addr"></p>
+    <p class="dist" id="t-dist"></p>
+    <iframe id="t-map" title="Map of the drawn restaurant" loading="lazy" referrerpolicy="no-referrer-when-downgrade" hidden></iframe>
+    <div class="two">
+      <a id="t-google" class="btn" target="_blank" rel="noopener">Google Maps</a>
+      <a id="t-apple" class="btn" target="_blank" rel="noopener">Apple Maps</a>
+    </div>
+  </article>
+</main>
+<footer>
+  <p>Places data from <a href="https://overturemaps.org" target="_blank" rel="noopener">Overture Maps Foundation</a> (<span id="release">release</span>), under CDLA-Permissive-2.0, Apache-2.0 (Foursquare, <a href="https://opensource.foursquare.com/places-notice-txt/" target="_blank" rel="noopener">notice</a>) and CC0-1.0. Data can be out of date.
+  <a href="https://github.com/kennyufish/eat-meowever-demo#data-and-credits" target="_blank" rel="noopener">Credits &amp; source</a>.</p>
+  <p>Not affiliated with Google or Apple. Your location never leaves your device.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,101 @@
+/* Tokens and the cat come from the EatMeowever app's Ticket Stack theme. */
+:root {
+  --bg:#FFF0F6;--bg-dot:#F9D3E3;--surface:#FFFFFF;--surface-2:#FFF6FA;
+  --ink:#1B1420;--ink-2:#5A4D62;--ink-3:#6B5E7B;--on-pastel:#171717;
+  --line:#171717;--shadow:#171717;--b:2px solid var(--line);
+  --pink:#FF9EC4;--mint:#9EE6C9;--lemon:#FFE27A;--sky:#9FD3FF;
+  --accent:#FF7AB0;--cat-fill:#FFFFFF;--cat-line:#171717;--blush:#FF9EC4;--focus:#2F62FF;--cat-shade:#E4DEEA;
+  --rc-paper:#FFFDF6;--rc-ink:#2B2A25;--rc-mute:#6C6656;--rc-rule:rgba(43,42,37,.38);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+  --latin:"EatMeowever Latin",ui-rounded,"SF Pro Rounded",system-ui,sans-serif;
+  --mono:"EatMeowever Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#191321;--bg-dot:#2A2036;--surface:#272033;--surface-2:#30283E;
+    --ink:#FBF3FF;--ink-2:#CFC1DB;--ink-3:#A193AE;--line:#0A0710;--shadow:#5A3F7A;
+    --pink:#FF8DBA;--mint:#74D8B3;--lemon:#F7D35E;--sky:#80C1F7;
+    --cat-fill:#FFF8FC;--cat-line:#0A0710;--blush:#FF8DBA;--focus:#9DBBFF;--rc-paper:#F4EFE2;--cat-shade:#E3D5E2;color-scheme:dark;
+  }
+}
+@font-face { font-family:"EatMeowever Latin"; src:url("fonts/eatmeowever-latin.woff2") format("woff2"); font-weight:500 700; font-display:swap; }
+@font-face { font-family:"EatMeowever Mono"; src:url("fonts/eatmeowever-mono.woff2") format("woff2"); font-weight:500; font-display:swap; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; min-height: 100dvh; font-family: var(--latin); background: var(--bg) radial-gradient(var(--bg-dot) 1.6px, transparent 1.9px) 0 0/22px 22px; color: var(--ink); -webkit-tap-highlight-color: transparent; }
+main, footer { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+main { padding-top: calc(16px + env(safe-area-inset-top)); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+a { color: inherit; }
+button, select { font: inherit; }
+
+.top h1 { margin: 0; font-size: 26px; }
+.top p { margin: 4px 0 0; color: var(--ink-2); font-size: 15px; }
+.stage { position: relative; display: grid; justify-items: center; margin: 8px 0 4px; }
+.catbtn { width: 150px; padding: 0; border: 0; background: none; cursor: pointer; }
+.say { min-height: 1.4em; margin: 0; color: var(--ink-2); font-size: 14px; }
+
+.card { margin-top: 12px; padding: 14px; border: var(--b); border-radius: 20px; background: var(--surface); box-shadow: 3px 3px 0 var(--shadow); }
+.card h2 { margin: 0 0 10px; font-size: 17px; }
+.note { margin: 8px 0 0; color: var(--ink-2); font-size: 13.5px; }
+.center { text-align: center; }
+.city { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--ink-2); font-size: 14px; }
+.city select { flex: 1; min-height: 44px; padding: 0 10px; border: var(--b); border-radius: 12px; background: var(--surface-2); color: var(--ink); }
+
+.btn { width: 100%; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 50px; padding: 0 12px; border: var(--b); border-radius: 16px; background: var(--surface); color: var(--ink); font-size: 15px; text-align: center; cursor: pointer; box-shadow: 3px 3px 0 var(--shadow); transition: transform .45s var(--spring), box-shadow .12s; }
+.btn:active { transform: translate(3px, 3px) scale(1.04, .9); box-shadow: 0 0 0 var(--shadow); transition-duration: .08s; }
+.btn:disabled { opacity: .5; cursor: default; }
+.accent { background: var(--accent); color: var(--on-pastel); }
+.draw { margin-top: 16px; min-height: 60px; font-size: 19px; font-weight: 700; background: var(--lemon); color: var(--on-pastel); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips + .chips { margin-top: 10px; }
+.chips button { min-height: 40px; padding: 0 14px; border: var(--b); border-radius: 999px; background: var(--surface-2); color: var(--ink); font-size: 14px; cursor: pointer; }
+.chips button[aria-pressed="true"] { background: var(--sky); color: var(--on-pastel); }
+
+/* The ticket prints out of the slot, like the app's receipt. */
+.ticket { margin: 16px 0 8px; padding: 18px 16px 16px; border: var(--b); border-radius: 6px; background: var(--rc-paper); color: var(--rc-ink); font-family: var(--mono); box-shadow: 0 6px 14px rgba(40,25,10,.18); transform-origin: top; }
+.ticket.printing { animation: print .7s var(--spring); }
+@keyframes print { from { transform: translateY(-24px) scaleY(.2); opacity: 0; } }
+.ticket .kind { margin: 0; color: var(--rc-mute); font-size: 13px; text-transform: capitalize; }
+.ticket .name { margin: 4px 0; font-family: var(--latin); font-size: 26px; line-height: 1.2; overflow-wrap: anywhere; }
+.ticket .addr, .ticket .dist { margin: 4px 0 0; font-size: 13.5px; }
+.ticket .dist { padding-bottom: 12px; border-bottom: 2px dashed var(--rc-rule); }
+.ticket iframe { display: block; width: 100%; height: 220px; margin-top: 12px; border: var(--b); border-radius: 12px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.two .btn { color: var(--on-pastel); background: #fff; }
+
+footer { padding-top: 16px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); color: var(--ink-3); font-size: 12px; }
+footer p { margin: 6px 0; }
+
+/* The cat (the app's cat2 drawing). */
+.cat { display: block; width: 100%; height: auto; overflow: visible; }
+.body { fill: var(--cat-shade); }
+.hi { fill: var(--cat-fill); }
+.bo { fill: none; stroke: var(--cat-line); stroke-width: 2.2; stroke-linejoin: round; }
+.ear { fill: var(--cat-fill); stroke: var(--cat-line); stroke-width: 2.2; stroke-linejoin: round; transform-box: view-box; transition: transform .45s var(--spring); }
+.el { transform-origin: 37px 44px; }
+.er { transform-origin: 93px 44px; }
+.to { fill: none; stroke: var(--cat-line); stroke-width: 8.6; stroke-linecap: round; }
+.ti { fill: none; stroke: var(--cat-fill); stroke-width: 5; stroke-linecap: round; }
+.tail { transform-box: view-box; transform-origin: 106px 84px; animation: wag 2.6s ease-in-out infinite; }
+@keyframes wag { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(12deg); } }
+.eyes { fill: var(--cat-line); transition: opacity .15s; }
+.bl { transform-box: fill-box; transform-origin: center; transition: transform .07s; }
+.blinking .bl { transform: scaleY(.12); }
+.hap { fill: none; stroke: var(--cat-line); stroke-width: 2.4; stroke-linecap: round; opacity: 0; transition: opacity .15s; }
+.ck { fill: var(--blush); opacity: .55; }
+.mo { fill: none; stroke: var(--cat-line); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.sh { fill: #000; opacity: .13; }
+.paw { fill: var(--cat-fill); stroke: var(--cat-line); stroke-width: 2; transform-box: fill-box; transform-origin: 50% 100%; }
+.happy .hap { opacity: 1; }
+.happy .eyes { opacity: 0; }
+.perk .el { transform: rotate(9deg) scaleY(1.12); }
+.perk .er { transform: rotate(-9deg) scaleY(1.12); }
+.droop .el { transform: rotate(-40deg); }
+.droop .er { transform: rotate(40deg); }
+.tap .paw { animation: tp .15s ease-in-out infinite alternate; }
+.tap .paw + .paw { animation-delay: .075s; }
+@keyframes tp { to { transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-iteration-count: 1 !important; animation-duration: .01s !important; } }
