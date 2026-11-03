@@ -42,6 +42,11 @@ Fonts: subsets of Huninn, Resource Han Rounded, Fredoka, IBM Plex Mono and Noto 
 
 This project is not affiliated with Google, Apple, Foursquare or the Overture Maps Foundation.
 
+## Known limits
+
+- Overture's operating status can lag behind reality, so a drawn place may have closed, or may not be a restaurant at all. "Closed / not a restaurant" on a place's details hides it from future draws. The list stays in your browser only, and Settings shows how many are hidden and can clear them.
+- There are no opening hours; check Google Maps before you go.
+
 ## License
 
 The code is under the [MIT License](LICENSE).
