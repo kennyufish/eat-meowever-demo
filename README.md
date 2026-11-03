@@ -34,7 +34,7 @@ Places data © [Overture Maps Foundation](https://overturemaps.org), from the re
 - Foursquare: [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0), Copyright 2024 Foursquare Labs, Inc. See the [Foursquare places NOTICE](https://opensource.foursquare.com/places-notice-txt/). The data was transformed to the Overture schema, and this project trims and re-tiles it further.
 - AllThePlaces: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 
-Place data can be wrong or out of date. Check before you go.
+Only places that Overture marks as open are kept. Names are shown as listed in the source, mostly in English. Place data can be wrong or out of date, so check Google Maps for opening hours and status before you go.
 
 Fonts: subsets of Huninn, Fredoka, IBM Plex Mono and Noto Serif TC, under the SIL Open Font License (`site/fonts/*-OFL.txt`).
 

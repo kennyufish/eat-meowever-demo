@@ -31,7 +31,7 @@ const W={
   brand:'吃什喵茶餐廳',head:'點菜單',table:'桌 {t}',dish:'菜色',kind:'分類',area:'地區',addr:'地址',distance:'距離',footer:'謝謝光臨 · 歡迎再來',stamp:'就是它',
   ticketLabel:'點菜單：{name}，{kind}。按 Enter 就這家，右方向鍵看詳細，左方向鍵丟掉',
   lookTag:'今天吃這家？',chosenTag:'今天就吃這家',again:'再選一家',share:'分享',copied:'已複製，貼給朋友吧',copyFailed:'無法複製，請手動複製：{name}',
-  mapTitle:'地圖',mapCap:'地圖由 Google 提供，用店名和地址搜尋，圖釘可能有點偏。',noAddr:'資料沒有地址',chosenLive:'選好了：{name}',
+  mapTitle:'地圖',mapCap:'地圖由 Google 提供，用店名和地址搜尋，圖釘可能有點偏。',noAddr:'資料沒有地址',caveat:'店名以英文原名為主，營業狀態以 Google Maps 為準。',places:'{n} 家',chosenLive:'選好了：{name}',
   cat:'分類',all:'全部',food:'吃的',drink:'喝的',dessert:'甜點',cuisine:'菜系',anyCuisine:'不限',more:'更多篩選',distanceLabel:'距離',unitLabel:'單位',km:'公里',mi:'英里',done:'完成',
   where:'位置',near:'在 {x} 附近',change:'改位置',me:'你的位置',countIn:'符合條件 <b id="fcount">{n}</b> 家',
   locTitle:'你在哪裡？',locSub:'這個 demo 只有加州。位置只留在這個瀏覽器，不會傳出去。',useMine:'用我的位置',locating:'定位中…',
@@ -52,7 +52,7 @@ const W={
   brand:'EatMeowever Diner',head:'ORDER',table:'Table {t}',dish:'Dish',kind:'Type',area:'Area',addr:'Address',distance:'Distance',footer:'Thank you · Come again',stamp:'THIS ONE',
   ticketLabel:'Order ticket: {name}, {kind}. Enter to choose it, right arrow for details, left arrow to discard',
   lookTag:'Eat here today?',chosenTag:'Eating here today',again:'Pick another',share:'Share',copied:'Copied. Paste it to a friend',copyFailed:"Couldn't copy. Copy it by hand: {name}",
-  mapTitle:'Map',mapCap:'Map by Google, found by name and address, so the pin can be a little off.',noAddr:'No address in the data',chosenLive:'Chosen: {name}',
+  mapTitle:'Map',mapCap:'Map by Google, found by name and address, so the pin can be a little off.',noAddr:'No address in the data',caveat:'Names are as listed in the source, mostly in English. Check Google Maps for opening hours and status.',places:'{n} places',chosenLive:'Chosen: {name}',
   cat:'Category',all:'All',food:'Food',drink:'Drinks',dessert:'Sweets',cuisine:'Cuisine',anyCuisine:'Any',more:'More filters',distanceLabel:'Distance',unitLabel:'Unit',km:'km',mi:'mi',done:'Done',
   where:'Location',near:'Near {x}',change:'Change',me:'you',countIn:'<b id="fcount">{n}</b> match',
   locTitle:'Where are you?',locSub:'This demo covers California only. Your location stays in this browser and is never sent anywhere.',useMine:'Use my location',locating:'Locating…',
@@ -63,7 +63,8 @@ const W={
   kinds:['Any','Chinese','Japanese','Korean','Southeast Asian','Indian','Mexican & Latin','Pizza & Italian','American','Mediterranean']}};
 let LANG=store.get('lang')||(/^zh/i.test(navigator.language)?'zh':'en');
 const t=(k,v={})=>String(W[LANG][k]??k).replace(/\{(\w+)\}/g,(_,n)=>v[n]??'');
-function applyI18n(){root.lang=LANG==='zh'?'zh-TW':'en';
+function showRelease(){if(META)$('#release').textContent=META.release+' · '+t('places',{n:META.places.toLocaleString()})}
+function applyI18n(){showRelease();root.lang=LANG==='zh'?'zh-TW':'en';
  $$('[data-i]').forEach(el=>{const v=t(el.dataset.i);if(el.dataset.attr)el.setAttribute(el.dataset.attr,v);else el.textContent=v});
  const h=$('#h-choose');delete h.dataset.t;h.textContent=t('title');stampHead(h)}
 
@@ -503,7 +504,7 @@ async function share(p){const text=p.n+'\n'+(p.a||''),url=googleUrl(p);
 function openResult(p){const tk=T[0]&&T[0].p===p?T[0]:null;
  const html=()=>{const done=tk&&tk.done;
   return`<div class="rhead c-${catOf(p.c)}"><span class="rtag">${t(done?'chosenTag':'lookTag')}</span><h2 id="sh-title" class="rname">${esc(shown(p.n))}</h2><p class="rmeta">${esc(p.a||t('noAddr'))}</p><span class="bst${done?' on':''}" id="r-stamp">${done?t('stamp'):''}</span></div>
-<p class="fline">${dstr(p.d)} · ${esc(typeLabel(p.c))}</p>${mapHTML(p)}
+<p class="fline">${dstr(p.d)} · ${esc(typeLabel(p.c))}</p>${mapHTML(p)}<p class="fnote">${t('caveat')}</p>
 ${done?'':`<div class="acts"><button id="r-ok" class="btn pri">${t('choose')}</button></div>`}
 <div class="gorow"><a class="btn dstatus gobtn${done?' pri':''}" href="${esc(googleUrl(p))}" target="_blank" rel="noopener">Google Maps</a><a class="btn dstatus gobtn" href="${esc(appleUrl(p))}" target="_blank" rel="noopener">Apple Maps</a><button class="btn dstatus shbtn" id="r-share" type="button" aria-label="${t('share')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12v7.5h14V12"/></svg></button></div>
 <div class="tlinks"><button id="r-again">${t('again')}</button></div>`};
@@ -572,5 +573,5 @@ A(startBtn,[{transform:'scale(.7) rotate(-6deg)'},N0],{...BO,delay:420,fill:'bac
 A(csvg,[{transform:'scale(.2)',opacity:0},{transform:'translateY(-8px) scale(1.04,1.1)',opacity:1,offset:.6},{transform:'scale(1.06,.95)',offset:.82},N0],{duration:640,delay:350,easing:'ease-out',fill:'backwards'});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fitTicket();lookStart()});
 setTimeout(()=>{if(!LOC)say(t('hungry'),3600)},1400);
-fetch('data/meta.json').then(r=>r.json()).then(m=>{META=m;$('#release').textContent=m.release;refresh()}).catch(()=>{LOADERR=true;updCount()});
+fetch('data/meta.json').then(r=>r.json()).then(m=>{META=m;showRelease();refresh()}).catch(()=>{LOADERR=true;updCount()});
 })();
