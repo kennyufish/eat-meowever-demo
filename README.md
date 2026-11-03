@@ -1,6 +1,6 @@
 # EatMeowever demo · 吃什喵
 
-Can't decide where to eat? Pick a spot, a distance and a kind of food, and the cat draws one restaurant at random.
+Can't decide where to eat? Pick a spot, and the printer cat prints you an order ticket for a random restaurant nearby. Swipe it away for another, or stamp it and go.
 
 **Try it:** https://kennyufish.github.io/eat-meowever-demo/
 
@@ -13,7 +13,7 @@ This is a free, public demo of EatMeowever that covers **California only**. It i
 ## How it works
 
 - `scripts/build_data.py` reads the latest [Overture Maps](https://overturemaps.org) places release from its public S3 bucket, keeps California dining places (restaurants, cafes, bars, food trucks and similar) with a confidence of at least 0.5, and writes them as about 2,800 small JSON tiles (about 0.045° × 0.055°, roughly 5 km).
-- `site/` is the page: `index.html`, `style.css` and `app.js`, with no build step. `app.js` loads the tiles around you, filters by distance and kind, and picks one at random.
+- `site/` is the page: `index.html`, `style.css` and `app.js`, with no build step. It is the EatMeowever app's Ticket Stack draw screen (printer cat, order tickets, swipe pile), ported to plain JavaScript. `app.js` loads the tiles around you, filters by category, cuisine and distance, and picks one at random. The UI is in Traditional Chinese or English; theme, sound (off by default), language and unit are remembered in your browser only.
 - `.github/workflows/pages.yml` deploys `site/` to GitHub Pages on every push. On the 3rd of each month it rebuilds the data first and keeps it on the `data` branch; if the rebuild fails, the previous data is deployed again.
 
 Run it locally:
@@ -36,7 +36,7 @@ Places data © [Overture Maps Foundation](https://overturemaps.org), from the re
 
 Place data can be wrong or out of date. Check before you go.
 
-Fonts: subsets of Fredoka and IBM Plex Mono, under the SIL Open Font License (`site/fonts/*-OFL.txt`).
+Fonts: subsets of Huninn, Fredoka, IBM Plex Mono and Noto Serif TC, under the SIL Open Font License (`site/fonts/*-OFL.txt`).
 
 This project is not affiliated with Google, Apple, Foursquare or the Overture Maps Foundation.
 

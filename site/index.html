@@ -4,78 +4,59 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>EatMeowever Demo</title>
-<meta name="description" content="Can't decide where to eat? Let the cat draw a restaurant near you. California only, nothing saved.">
+<meta name="description" content="Can't decide where to eat? The cat prints you an order ticket for a place nearby. California only, nothing saved.">
 <meta name="theme-color" content="#FFF0F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#191321" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="icon.png">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="name-serif.css">
 <script src="config.js"></script>
 <script src="app.js" defer></script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="paw" viewBox="0 0 24 24"><ellipse cx="12" cy="15.5" rx="5" ry="4.2"/><ellipse cx="5.5" cy="10" rx="2" ry="2.6"/><ellipse cx="9.5" cy="6" rx="2" ry="2.6"/><ellipse cx="14.5" cy="6" rx="2" ry="2.6"/><ellipse cx="18.5" cy="10" rx="2" ry="2.6"/></symbol></svg>
+<div class="app">
+<header class="hdr">
+  <div class="brand"><b lang="zh-TW">吃什喵</b><small>EatMeowever · Demo</small></div>
+  <div class="tr"><button id="filter-btn" class="ib fl" aria-haspopup="dialog" data-i="filters" data-attr="aria-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg><span class="fdot" id="fdot" hidden></span></button>
+  <button id="set-btn" class="ib" aria-haspopup="dialog" data-i="settings" data-attr="aria-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 2.5h3.4l.5 2.6 1.6.9 2.5-.9 1.7 2.9-2 1.7v1.9l2 1.7-1.7 2.9-2.5-.9-1.6.9-.5 2.6h-3.4l-.5-2.6-1.6-.9-2.5.9-1.7-2.9 2-1.7v-1.9l-2-1.7 1.7-2.9 2.5.9 1.6-.9z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+</header>
 <main>
-  <header class="top">
-    <h1>EatMeowever <span lang="zh-CN">吃什喵</span></h1>
-    <p>Can't decide where to eat? The cat draws one for you. <b>California demo.</b></p>
-  </header>
-
-  <div class="stage">
-    <button id="cat" class="catbtn" type="button" aria-label="Pet the cat">
-      <svg class="cat" viewBox="0 0 130 100" aria-hidden="true">
-        <defs><clipPath id="catclip"><path d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/></clipPath></defs>
-        <ellipse class="sh" cx="65" cy="95" rx="50" ry="5"/>
-        <g class="tail"><path class="to" d="M106 84Q125 83 124 64Q123 55 115 53"/><path class="ti" d="M106 84Q125 83 124 64Q123 55 115 53"/></g>
-        <path class="ear el" d="M22 54L28 14Q29 8 34 12L56 35Z"/>
-        <path class="ear er" d="M108 54L102 14Q101 8 96 12L74 35Z"/>
-        <path class="body" d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/>
-        <ellipse class="hi" cx="59" cy="58" rx="50" ry="35" clip-path="url(#catclip)"/>
-        <path class="bo" d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/>
-        <ellipse class="ck" cx="37" cy="74" rx="7" ry="3.8"/><ellipse class="ck" cx="93" cy="74" rx="7" ry="3.8"/>
-        <g class="eyes"><g class="bl"><ellipse cx="50" cy="64" rx="3.1" ry="4"/><ellipse cx="80" cy="64" rx="3.1" ry="4"/></g></g>
-        <g class="hap"><path d="M46 66Q50 60 54 66"/><path d="M76 66Q80 60 84 66"/></g>
-        <path class="mo" d="M58.5 72.5q3.2 3 6.5 0q3.3 3 6.5 0"/>
-        <ellipse class="paw" cx="53" cy="91" rx="11" ry="7"/><ellipse class="paw" cx="77" cy="91" rx="11" ry="7"/>
-      </svg>
-    </button>
-    <p id="say" class="say" aria-live="polite"></p>
+<section id="view-choose" class="view" aria-labelledby="h-choose">
+  <div class="hero">
+    <h1 id="h-choose" class="ht" data-i="title"></h1>
+    <p class="sub" data-i="subtitle"></p>
   </div>
-
-  <section class="card" aria-labelledby="where-h">
-    <h2 id="where-h">Where are you?</h2>
-    <button id="locate" class="btn accent" type="button">Use my location</button>
-    <label class="city">or pick a city
-      <select id="city">
-        <option value="">Choose…</option>
-      </select>
-    </label>
-    <p id="where" class="note" aria-live="polite">Your location stays in this browser. Nothing is sent or saved.</p>
-  </section>
-
-  <section class="card" aria-labelledby="how-h">
-    <h2 id="how-h">How far, what kind?</h2>
-    <div class="chips" id="miles" role="group" aria-label="Distance"></div>
-    <div class="chips" id="kinds" role="group" aria-label="Kind of food"></div>
-  </section>
-
-  <button id="draw" class="btn draw" type="button" disabled>Draw a restaurant</button>
-  <p id="count" class="note center" aria-live="polite"></p>
-
-  <article id="ticket" class="ticket" hidden aria-live="polite">
-    <p class="kind" id="t-kind"></p>
-    <h2 class="name" id="t-name"></h2>
-    <p class="addr" id="t-addr"></p>
-    <p class="dist" id="t-dist"></p>
-    <iframe id="t-map" title="Map of the drawn restaurant" loading="lazy" referrerpolicy="no-referrer-when-downgrade" hidden></iframe>
-    <div class="two">
-      <a id="t-google" class="btn" target="_blank" rel="noopener">Google Maps</a>
-      <a id="t-apple" class="btn" target="_blank" rel="noopener">Apple Maps</a>
-    </div>
-  </article>
+  <div class="pile" id="pile" role="region" data-i="pile" data-attr="aria-label">
+    <div class="pe" id="pile-empty"><svg class="pe-ico" id="pe-ico" viewBox="0 0 24 24" aria-hidden="true" hidden><use href="#paw"/></svg><b id="pe-t"></b>
+      <button class="go" id="start-btn" type="button" aria-describedby="pe-s"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#paw"/></svg><span></span></button>
+      <span class="pe-s" id="pe-s"></span></div>
+  </div>
+  <div class="prn" id="counter">
+    <svg class="pbody" id="pbody" aria-hidden="true"></svg>
+    <div class="lcd" aria-live="polite"><span id="lcd-n"><span id="lcd-pre"></span> <b id="count">0</b> <span id="lcd-post"></span></span><span id="lcd-msg" hidden></span><i class="led" aria-hidden="true"></i></div>
+    <button id="ccat" class="ccat" data-i="petCat" data-attr="aria-label"></button>
+    <span class="bubble stk" id="bubble" hidden></span>
+    <span class="zzz" aria-hidden="true"><i style="--n:0">z</i><i style="--n:1">z</i><i style="--n:2">z</i></span>
+  </div>
+  <div class="ctrl away" id="ctrl">
+    <p class="hint" id="hint" aria-live="polite"></p>
+    <button class="rnd" id="pick-btn" data-i="rerollLabel" data-attr="aria-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v5h-5"/></svg><span id="pick-lbl"></span></button>
+    <button class="pick ok" id="ok-btn" data-i="chooseLabel" data-attr="aria-label" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span id="ok-lbl" data-i="choose"></span></button>
+    <button class="rnd" id="look-btn" data-i="lookLabel" data-attr="aria-label" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg><span data-i="look"></span></button>
+  </div>
+</section>
 </main>
-<footer>
-  <p>Places data from <a href="https://overturemaps.org" target="_blank" rel="noopener">Overture Maps Foundation</a> (<span id="release">release</span>), under CDLA-Permissive-2.0, Apache-2.0 (Foursquare, <a href="https://opensource.foursquare.com/places-notice-txt/" target="_blank" rel="noopener">notice</a>) and CC0-1.0. Data can be out of date.
-  <a href="https://github.com/kennyufish/eat-meowever-demo#data-and-credits" target="_blank" rel="noopener">Credits &amp; source</a>.</p>
-  <p>Not affiliated with Google or Apple. Your location never leaves your device.</p>
-</footer>
+<p class="credits"><span data-i="credit"></span> <a href="https://overturemaps.org" target="_blank" rel="noopener">Overture Maps Foundation</a> (<span id="release"></span>) · <a href="https://github.com/kennyufish/eat-meowever-demo#data-and-credits" target="_blank" rel="noopener" data-i="creditsLink"></a><br><span data-i="privacy"></span></p>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title" hidden>
+  <div class="scrim" data-close></div>
+  <div class="spanel" id="spanel"><div class="grab" aria-hidden="true"></div><div id="sheet-body"></div></div>
+</div>
+<div class="skipper" id="skipper" aria-hidden="true" hidden></div>
+<div class="fx" id="fx" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="sr" id="live" aria-live="polite"></div>
 </body>
 </html>
