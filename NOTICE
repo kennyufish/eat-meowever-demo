@@ -16,5 +16,5 @@ Chinese place names (site/data/zh/*.json, built by scripts/zh_names.py)
   OpenCC dictionaries (Apache 2.0).
 
 Fonts (site/fonts)
-  Subsets of Huninn, Fredoka, IBM Plex Mono and Noto Serif TC, under the SIL Open Font License 1.1
+  Subsets of Huninn, Resource Han Rounded, Fredoka, IBM Plex Mono and Noto Serif TC, under the SIL Open Font License 1.1
   (site/fonts/*-OFL.txt).

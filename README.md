@@ -13,7 +13,7 @@ This is a free, public demo of EatMeowever that covers **California only**. It i
 ## How it works
 
 - `scripts/build_data.py` reads the latest [Overture Maps](https://overturemaps.org) places release from its public S3 bucket, keeps California dining places (restaurants, cafes, bars, food trucks and similar) with a confidence of at least 0.5, and writes them as about 2,800 small JSON tiles (about 0.045° × 0.055°, roughly 5 km).
-- `site/` is the page: `index.html`, `style.css` and `app.js`, with no build step. It is the EatMeowever app's Ticket Stack draw screen (printer cat, order tickets, swipe pile), ported to plain JavaScript. `app.js` loads the tiles around you, filters by category, cuisine and distance, and picks one at random. The UI is in Traditional Chinese or English; theme, sound (off by default), language and unit are remembered in your browser only.
+- `site/` is the page: `index.html`, `style.css` and `app.js`, with no build step. It is the EatMeowever app's Ticket Stack draw screen (printer cat, order tickets, swipe pile), ported to plain JavaScript. `app.js` loads the tiles around you, filters by category, cuisine and distance, and picks one at random. The UI is in Simplified Chinese or English; theme, sound (off by default), language and unit are remembered in your browser only.
 - `.github/workflows/pages.yml` deploys `site/` to GitHub Pages on every push. On the 3rd of each month it rebuilds the data first and keeps it on the `data` branch; if the rebuild fails, the previous data is deployed again.
 
 Run it locally:
@@ -38,7 +38,7 @@ Chinese names: when the page is in Chinese, some places also show a Chinese name
 
 Only places that Overture marks as open are kept. Names are shown as listed in the source, mostly in English. Place data can be wrong or out of date, so check Google Maps for opening hours and status before you go.
 
-Fonts: subsets of Huninn, Fredoka, IBM Plex Mono and Noto Serif TC, under the SIL Open Font License (`site/fonts/*-OFL.txt`).
+Fonts: subsets of Huninn, Resource Han Rounded, Fredoka, IBM Plex Mono and Noto Serif TC, under the SIL Open Font License (`site/fonts/*-OFL.txt`). The Simplified Chinese UI font is rebuilt with `scripts/build_sc_font.py`.
 
 This project is not affiliated with Google, Apple, Foursquare or the Overture Maps Foundation.
 
