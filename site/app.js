@@ -19,27 +19,27 @@ on(document,'touchstart',()=>{},{passive:true});
 
 /* ---------- words ---------- */
 const W={
- zh:{title:'今天吃什麼好？',subtitle:'不用想太久，幫你選一家。',pile:'一疊點菜單',filters:'篩選',settings:'設定',petCat:'摸摸貓咪',
-  notOrdered:'今天還沒點單',start:'幫我選一家',startHint:'喵喵馬上幫你印一張點菜單。',
-  noLoc:'你在哪裡？',noLocHint:'用你的位置，或選一個加州城市。',setLoc:'選位置',lcdNoLoc:'先選位置',
-  noMatch:'沒有符合的店',noMatchHint:'放寬一點距離或分類試試。',relax:'放寬篩選',noMatchLcd:'沒有符合的店 · 放寬篩選',
-  loading:'載入中…',loadFail:'載入不了',loadFailHint:'檢查網路後再試一次。',retry:'再試一次',
-  lcdPre:'符合條件',lcdPost:'家',printing:'出單中…',printed:'No.{no} 已出單',fateLcd:'★ 命中註定 ★',fate:'命中註定',fateSay:'命中註定喵！✨',
-  printedLive:'出單：{name}。點兩下就這家，右滑看詳細，左滑丟掉',discarded:'丟掉了 {name}',skipHint:'點一下跳過',
-  gestureHint:'← 左滑丟掉　點兩下就這家　右滑看詳細 →',reroll:'換一張',rerollLabel:'換一張：再印一張新的',choose:'就這家',chooseLabel:'就這家（Enter）',chosen:'已選好',
-  look:'看詳細',lookLabel:'看詳細（右方向鍵）',discard:'丟掉',onlyOne:'只有一家符合 · 放寬篩選',
-  brand:'吃什喵茶餐廳',head:'點菜單',table:'桌 {t}',dish:'菜色',kind:'分類',area:'地區',addr:'地址',distance:'距離',footer:'謝謝光臨 · 歡迎再來',stamp:'就是它',
-  ticketLabel:'點菜單：{name}，{kind}。按 Enter 就這家，右方向鍵看詳細，左方向鍵丟掉',
-  lookTag:'今天吃這家？',chosenTag:'今天就吃這家',again:'再選一家',share:'分享',copied:'已複製，貼給朋友吧',copyFailed:'無法複製，請手動複製：{name}',
-  mapTitle:'地圖',mapCap:'地圖由 Google 提供，用店名和地址搜尋，圖釘可能有點偏。',noAddr:'資料沒有地址',caveat:'店名以英文原名為主，部分附中文名；營業狀態以 Google Maps 為準。',orig:'原名',zhCredit:'中文店名 © OpenStreetMap 貢獻者（ODbL）、Name Suggestion Index（BSD-3）',places:'{n} 家',chosenLive:'選好了：{name}',
-  cat:'分類',all:'全部',food:'吃的',drink:'喝的',dessert:'甜點',cuisine:'菜系',anyCuisine:'不限',more:'更多篩選',distanceLabel:'距離',unitLabel:'單位',km:'公里',mi:'英里',done:'完成',
-  where:'位置',near:'在 {x} 附近',change:'改位置',me:'你的位置',countIn:'符合條件 <b id="fcount">{n}</b> 家',
-  locTitle:'你在哪裡？',locSub:'這個 demo 只有加州。位置只留在這個瀏覽器，不會傳出去。',useMine:'用我的位置',locating:'定位中…',
-  locDenied:'拿不到位置，請選一個城市。',locOutside:'你好像不在加州，這個 demo 只有加州的店。請選一個城市。',orCity:'或選城市',
-  appearance:'外觀',themeSystem:'跟隨系統',themeLight:'淺色',themeDark:'深色',sound:'聲音',language:'語言',
-  credit:'店家資料：',creditsLink:'授權與來源',privacy:'不用帳號、不存任何資料，位置只留在你的裝置。',hungry:'先告訴我你在哪喵～',
-  pets:['喵～','肚子餓了喵','快點選啦','摸摸頭 ♡','今天吃什麼好喵？'],impatient:['選啦喵！','還在選？','快點選啦喵～','喵…又換？','肚子餓啦喵！'],
-  kinds:['不限','中式','日式','韓式','東南亞','印度','墨西哥與拉美','披薩與義式','美式','地中海']},
+ zh:{title:'今天吃什么好？',subtitle:'不用想太久，帮你选一家。',pile:'一叠点菜单',filters:'筛选',settings:'设置',petCat:'摸摸猫咪',
+  notOrdered:'今天还没点单',start:'帮我选一家',startHint:'喵喵马上帮你印一张点菜单。',
+  noLoc:'你在哪里？',noLocHint:'用你的位置，或选一个加州城市。',setLoc:'选位置',lcdNoLoc:'先选位置',
+  noMatch:'没有符合的店',noMatchHint:'放宽一点距离或分类试试。',relax:'放宽筛选',noMatchLcd:'没有符合的店 · 放宽筛选',
+  loading:'加载中…',loadFail:'加载不了',loadFailHint:'检查网络后再试一次。',retry:'再试一次',
+  lcdPre:'符合条件',lcdPost:'家',printing:'出单中…',printed:'No.{no} 已出单',fateLcd:'★ 命中注定 ★',fate:'命中注定',fateSay:'命中注定喵！✨',
+  printedLive:'出单：{name}。点两下就这家，右滑看详细，左滑丢掉',discarded:'丢掉了 {name}',skipHint:'点一下跳过',
+  gestureHint:'← 左滑丢掉　点两下就这家　右滑看详细 →',reroll:'换一张',rerollLabel:'换一张：再印一张新的',choose:'就这家',chooseLabel:'就这家（Enter）',chosen:'已选好',
+  look:'看详细',lookLabel:'看详细（右方向键）',discard:'丢掉',onlyOne:'只有一家符合 · 放宽筛选',
+  brand:'吃什喵茶餐厅',head:'点菜单',table:'桌 {t}',dish:'菜色',kind:'分类',area:'地区',addr:'地址',distance:'距离',footer:'谢谢光临 · 欢迎再来',stamp:'就是它',
+  ticketLabel:'点菜单：{name}，{kind}。按 Enter 就这家，右方向键看详细，左方向键丢掉',
+  lookTag:'今天吃这家？',chosenTag:'今天就吃这家',again:'再选一家',share:'分享',copied:'已复制，发给朋友吧',copyFailed:'无法复制，请手动复制：{name}',
+  mapTitle:'地图',mapCap:'地图由 Google 提供，用店名和地址搜索，图钉可能有点偏。',noAddr:'数据没有地址',caveat:'店名以英文原名为主，部分附中文名；营业状态以 Google Maps 为准。',orig:'原名',zhCredit:'中文店名 © OpenStreetMap 贡献者（ODbL）、Name Suggestion Index（BSD-3）',places:'{n} 家',chosenLive:'选好了：{name}',
+  cat:'分类',all:'全部',food:'吃的',drink:'喝的',dessert:'甜点',cuisine:'菜系',anyCuisine:'不限',more:'更多筛选',distanceLabel:'距离',unitLabel:'单位',km:'公里',mi:'英里',done:'完成',
+  where:'位置',near:'在 {x} 附近',change:'改位置',me:'你的位置',countIn:'符合条件 <b id="fcount">{n}</b> 家',
+  locTitle:'你在哪里？',locSub:'这个 demo 只有加州。位置只留在这个浏览器，不会传出去。',useMine:'用我的位置',locating:'定位中…',
+  locDenied:'拿不到位置，请选一个城市。',locOutside:'你好像不在加州，这个 demo 只有加州的店。请选一个城市。',orCity:'或选城市',
+  appearance:'外观',themeSystem:'跟随系统',themeLight:'浅色',themeDark:'深色',sound:'声音',language:'语言',
+  credit:'店家数据：',creditsLink:'授权与来源',privacy:'不用账号、不存任何数据，位置只留在你的设备。',hungry:'先告诉我你在哪喵～',
+  pets:['喵～','肚子饿了喵','快点啦','摸摸头 ♡','今天吃什么好喵？'],impatient:['选啦喵！','还在选？','快点啦喵～','喵…又换？','肚子饿啦喵！'],
+  kinds:['不限','中式','日式','韩式','东南亚','印度','墨西哥与拉美','披萨与意式','美式','地中海']},
  en:{title:'What shall we eat today?',subtitle:"No need to overthink it. We'll pick one for you.",pile:'A pile of order tickets',filters:'Filters',settings:'Settings',petCat:'Pet the cat',
   notOrdered:'No order yet today',start:'Pick one for me',startHint:'The cat will print you an order ticket right away.',
   noLoc:'Where are you?',noLocHint:'Use your location or pick a California city.',setLoc:'Set location',lcdNoLoc:'Set a location first',
@@ -64,7 +64,7 @@ const W={
 let LANG=store.get('lang')||(/^zh/i.test(navigator.language)?'zh':'en');
 const t=(k,v={})=>String(W[LANG][k]??k).replace(/\{(\w+)\}/g,(_,n)=>v[n]??'');
 function showRelease(){if(META)$('#release').textContent=META.release+' · '+t('places',{n:META.places.toLocaleString()})}
-function applyI18n(){showRelease();root.lang=LANG==='zh'?'zh-TW':'en';
+function applyI18n(){showRelease();root.lang=LANG==='zh'?'zh-Hans':'en';
  $$('[data-i]').forEach(el=>{const v=t(el.dataset.i);if(el.dataset.attr)el.setAttribute(el.dataset.attr,v);else el.textContent=v});
  const h=$('#h-choose');delete h.dataset.t;h.textContent=t('title');stampHead(h)}
 
@@ -79,14 +79,14 @@ const DRINK=/coffee|cafe|tea|juice|smoothie|boba|^(?!salad|sushi|oyster).*(bar|p
  SWEET=/bakery|ice_cream|donut|dessert|frozen_yogurt|cupcake|gelato|candy|chocolat|shaved_ice|patisserie|cake|creperie/;
 const catOf=c=>SWEET.test(c)?'dessert':DRINK.test(c)?'drink':'food';
 console.assert(catOf('coffee_shop')==='drink'&&catOf('salad_bar')==='food'&&catOf('donut_shop')==='dessert'&&catOf('sports_bar')==='drink','catOf');
-const ZHTYPE={restaurant:'餐廳',casual_eatery:'小吃',mexican_restaurant:'墨西哥菜',fast_food_restaurant:'速食',coffee_shop:'咖啡店',pizza_restaurant:'披薩',bakery:'烘焙坊',sandwich_shop:'三明治',cafe:'咖啡館',
- chinese_restaurant:'中式餐廳',burger_restaurant:'漢堡',american_restaurant:'美式餐廳',ice_cream_shop:'冰淇淋',sushi_restaurant:'壽司',bar:'酒吧',italian_restaurant:'義式餐廳',japanese_restaurant:'日式餐廳',
- smoothie_juice_bar:'果汁吧',seafood_restaurant:'海鮮',donut_shop:'甜甜圈',thai_restaurant:'泰式餐廳',vietnamese_restaurant:'越南餐廳',barbecue_restaurant:'燒烤',breakfast_and_brunch_restaurant:'早午餐',
- chicken_restaurant:'雞肉料理',dessert_shop:'甜點店',indian_restaurant:'印度餐廳',taco_restaurant:'塔可',food_truck_stand:'餐車',delicatessen:'熟食店',mediterranean_restaurant:'地中海餐廳',
- korean_restaurant:'韓式餐廳',cocktail_bar:'調酒吧',sports_bar:'運動酒吧',diner:'美式小館',steakhouse:'牛排館',wine_bar:'葡萄酒吧',ramen_restaurant:'拉麵',dim_sum_restaurant:'港式點心',
- taiwanese_restaurant:'台式料理',hot_pot_restaurant:'火鍋',poke_restaurant:'夏威夷拌飯',filipino_restaurant:'菲律賓菜',french_restaurant:'法式餐廳',vegetarian_restaurant:'素食',vegan_restaurant:'純素',
- greek_restaurant:'希臘菜',middle_eastern_restaurant:'中東菜',hawaiian_restaurant:'夏威夷菜',asian_fusion_restaurant:'亞洲融合',asian_restaurant:'亞洲料理',frozen_yogurt_shop:'優格冰淇淋',
- bagel_shop:'貝果',hot_dog_restaurant:'熱狗',food_court:'美食街',noodles_restaurant:'麵館',cantonese_restaurant:'粵菜',szechuan_restaurant:'川菜',bubble_tea_shop:'珍珠奶茶'};
+const ZHTYPE={restaurant:'餐厅',casual_eatery:'小吃',mexican_restaurant:'墨西哥菜',fast_food_restaurant:'快餐',coffee_shop:'咖啡店',pizza_restaurant:'披萨',bakery:'烘焙坊',sandwich_shop:'三明治',cafe:'咖啡馆',
+ chinese_restaurant:'中式餐厅',burger_restaurant:'汉堡',american_restaurant:'美式餐厅',ice_cream_shop:'冰淇淋',sushi_restaurant:'寿司',bar:'酒吧',italian_restaurant:'意式餐厅',japanese_restaurant:'日式餐厅',
+ smoothie_juice_bar:'果汁吧',seafood_restaurant:'海鲜',donut_shop:'甜甜圈',thai_restaurant:'泰式餐厅',vietnamese_restaurant:'越南餐厅',barbecue_restaurant:'烧烤',breakfast_and_brunch_restaurant:'早午餐',
+ chicken_restaurant:'鸡肉料理',dessert_shop:'甜点店',indian_restaurant:'印度餐厅',taco_restaurant:'塔可',food_truck_stand:'餐车',delicatessen:'熟食店',mediterranean_restaurant:'地中海餐厅',
+ korean_restaurant:'韩式餐厅',cocktail_bar:'鸡尾酒吧',sports_bar:'运动酒吧',diner:'美式小馆',steakhouse:'牛排馆',wine_bar:'葡萄酒吧',ramen_restaurant:'拉面',dim_sum_restaurant:'港式点心',
+ taiwanese_restaurant:'台式料理',hot_pot_restaurant:'火锅',poke_restaurant:'夏威夷拌饭',filipino_restaurant:'菲律宾菜',french_restaurant:'法式餐厅',vegetarian_restaurant:'素食',vegan_restaurant:'纯素',
+ greek_restaurant:'希腊菜',middle_eastern_restaurant:'中东菜',hawaiian_restaurant:'夏威夷菜',asian_fusion_restaurant:'亚洲融合',asian_restaurant:'亚洲料理',frozen_yogurt_shop:'酸奶冰淇淋',
+ bagel_shop:'贝果',hot_dog_restaurant:'热狗',food_court:'美食街',noodles_restaurant:'面馆',cantonese_restaurant:'粤菜',szechuan_restaurant:'川菜',bubble_tea_shop:'珍珠奶茶'};
 const typeLabel=c=>(LANG==='zh'&&ZHTYPE[c])||(c||'restaurant').replace(/_/g,' ');
 const areaOf=p=>(p.a||'').split(', ').slice(-1)[0]||'—',streetOf=p=>(p.a||'').split(', ').slice(0,-1).join(', ')||t('noAddr');
 // The app shows Latin letters in restaurant names in capitals (src/domain/locale.ts displayRestaurantName).
@@ -94,11 +94,11 @@ const shown=n=>n.replace(/\p{Script=Latin}+/gu,s=>s.toUpperCase());
 // The Chinese name (Simplified, from OpenStreetMap or the Name Suggestion Index) shows only when the page is in Chinese.
 const zhOf=p=>LANG==='zh'&&p.z||'',nameOf=p=>zhOf(p)||shown(p.n),nameCls=p=>zhOf(p)?' zhn':'';
 const CA={s:32.5,n:42.1,w:-124.5,e:-114.1};
-const CITIES=[['Los Angeles','洛杉磯',34.0522,-118.2437],['San Francisco','舊金山',37.7749,-122.4194],['San Diego','聖地牙哥',32.7157,-117.1611],['San Jose','聖荷西',37.3382,-121.8863],
- ['Sacramento','沙加緬度',38.5816,-121.4944],['Oakland','奧克蘭',37.8044,-122.2712],['Berkeley','柏克萊',37.8715,-122.273],['Palo Alto','帕羅奧圖',37.4419,-122.143],
- ['Irvine','爾灣',33.6846,-117.8265],['Pasadena','帕薩迪納',34.1478,-118.1445],['San Gabriel','聖蓋博',34.0961,-118.1058],['Arcadia','阿凱迪亞',34.1397,-118.0353],
- ['Santa Monica','聖塔莫尼卡',34.0195,-118.4912],['Long Beach','長灘',33.7701,-118.1937],['Riverside','河濱',33.9806,-117.3755],['Fresno','佛雷斯諾',36.7378,-119.7871],
- ['Santa Barbara','聖塔芭芭拉',34.4208,-119.6982],['Santa Cruz','聖塔克魯茲',36.9741,-122.0308],['Monterey','蒙特雷',36.6002,-121.8947],['Davis','戴維斯',38.5449,-121.7405],['Cupertino','庫比蒂諾',37.323,-122.0322]];
+const CITIES=[['Los Angeles','洛杉矶',34.0522,-118.2437],['San Francisco','旧金山',37.7749,-122.4194],['San Diego','圣地亚哥',32.7157,-117.1611],['San Jose','圣何塞',37.3382,-121.8863],
+ ['Sacramento','萨克拉门托',38.5816,-121.4944],['Oakland','奥克兰',37.8044,-122.2712],['Berkeley','伯克利',37.8715,-122.273],['Palo Alto','帕洛阿尔托',37.4419,-122.143],
+ ['Irvine','尔湾',33.6846,-117.8265],['Pasadena','帕萨迪纳',34.1478,-118.1445],['San Gabriel','圣盖博',34.0961,-118.1058],['Arcadia','阿卡迪亚',34.1397,-118.0353],
+ ['Santa Monica','圣莫尼卡',34.0195,-118.4912],['Long Beach','长滩',33.7701,-118.1937],['Riverside','河滨',33.9806,-117.3755],['Fresno','弗雷斯诺',36.7378,-119.7871],
+ ['Santa Barbara','圣巴巴拉',34.4208,-119.6982],['Santa Cruz','圣克鲁斯',36.9741,-122.0308],['Monterey','蒙特雷',36.6002,-121.8947],['Davis','戴维斯',38.5449,-121.7405],['Cupertino','库比蒂诺',37.323,-122.0322]];
 /** Great-circle distance in km. */
 function kmTo(a,b){const r=Math.PI/180,dLat=(b.y-a.y)*r,dLon=(b.x-a.x)*r,h=Math.sin(dLat/2)**2+Math.cos(a.y*r)*Math.cos(b.y*r)*Math.sin(dLon/2)**2;return 12742*Math.asin(Math.sqrt(h))}
 console.assert(Math.abs(kmTo({y:34.0522,x:-118.2437},{y:37.7749,x:-122.4194})-559)<5,'LA to SF is about 559 km');
@@ -275,7 +275,7 @@ const pose=(i,tk)=>{const p=P[Math.min(i,3)];return tf(0,p.y,p.r+(i?0:tk.tilt),p
 let ZZ='';{let d='M0 0V2';for(let x=0;x<300;x+=10)d+=`L${x+5} 9L${x+10} 2`;ZZ=`<svg class="zz" viewBox="0 0 300 10" preserveAspectRatio="none" aria-hidden="true"><path class="f" d="${d}V0Z"/><path class="s" d="${d}V0"/></svg>`}
 const FITP={i:'sample',n:'Golden Gate Noodle House',c:'chinese_restaurant',a:'1 Market St, San Francisco',d:1.6};
 function mkTicket(p,done){orderNo++;const now=new Date(),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
- const day=new Intl.DateTimeFormat(LANG==='zh'?'zh-TW':'en-US',{month:'short',day:'numeric'}).format(now);
+ const day=new Intl.DateTimeFormat(LANG==='zh'?'zh-CN':'en-US',{month:'short',day:'numeric'}).format(now);
  const kv=(k,v)=>`<div class="ln kv"><span class="k">${t(k)}</span><i class="lead"></i><span class="val">${v}</span></div>`;
  const el=document.createElement('div');el.className='tk c-'+catOf(p.c);
  el.innerHTML=`<div class="tk-in"><div class="ln br">${CATSVG}${t('brand')}</div><div class="ln hd">${t('head')}</div>
@@ -321,7 +321,7 @@ function choose(pool,discard){const used=new Set(T.map(x=>x.p.i));if(discard)use
 
 let printing=false,skipping=false,skipRes=null,pickAt=0;
 const skipper=$('#skipper');
-/* a round = draws since load, the last 就這家, a filter change or 60 s without a draw; prints later in a round run quicker (K) */
+/* a round = draws since load, the last 就这家, a filter change or 60 s without a draw; prints later in a round run quicker (K) */
 let rn=0,lastDraw=0,K=1,drawN=0,tipSkip=store.get('skiptip')!=='1';
 const step=ms=>(skipping||RM)?Promise.resolve():new Promise(r=>{const id=setTimeout(()=>{skipRes=null;r()},ms*K);skipRes=()=>{clearTimeout(id);skipRes=null;r()}});
 function doSkip(force){if(!printing||skipping||(!force&&performance.now()-pickAt<220))return;skipping=true;if(skipRes)skipRes()}
@@ -358,7 +358,7 @@ async function pick(auto,discard){
  if(!vc.classList.contains('drawn'))shrinkHead();
  [csvg,$('.p1',cpaws),$('.tail',ccat)].forEach(e=>e.getAnimations().forEach(a=>a.cancel()));$('.tw',ccat).classList.remove('twitch');
  wake();const win=choose(pool,discard),t0=performance.now();drawN++;
- const fate=Math.random()<1/12;// 命中註定: about 1 in 12
+ const fate=Math.random()<1/12;// 命中注定: about 1 in 12
  if(t0-lastDraw>60000)rn=0;lastDraw=t0;rn++;K=rn<2?.7:rn<3?.5:.36;
  if(rn>=4&&rn%2===0)impatient();if(fate){counter.classList.add('gold');vc.classList.add('lucky')}
  printing=true;skipping=false;pickAt=performance.now();const hush=sfx.whirr();root.dataset.printing='1';pickBtn.setAttribute('aria-busy','true');hint.textContent=tipSkip?t('skipHint'):'';
@@ -393,7 +393,7 @@ async function pick(auto,discard){
  if(tipSkip){tipSkip=false;store.set('skiptip','1')}
  updCtl();setAway(false);live(t('printedLive',{name:nameOf(win)+(fate?' ('+t('fate')+')':'')}));
  if(refocus){refocus=false;const a=document.activeElement;if((!a||a===document.body)&&T[0])T[0].el.focus({preventScroll:true})}}
-/* 命中註定 = an SSR pull: flash, slow rays behind the pile, a gold-foil stamp in the header and a star burst */
+/* 命中注定 = an SSR pull: flash, slow rays behind the pile, a gold-foil stamp in the header and a star burst */
 const STAR='<svg viewBox="0 0 24 24"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z"/></svg>';
 function sheen(tk){const w=document.createElement('span');w.className='shw';w.innerHTML='<i></i>';tk.in.append(w);
  const a=A(w.firstChild,[{transform:'translateX(-110%)'},{transform:'translateX(110%)'}],{duration:950,easing:'ease-in-out'});if(a)a.onfinish=()=>w.remove();else w.remove()}
@@ -433,7 +433,7 @@ on(pileEl,'pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const now=per
 let tapT=0;
 function up(e){if(!drag||e.pointerId!==drag.id)return;const d=drag;drag=null;T[0]&&T[0].el.classList.remove('dragging');
  const a=d.s[0],b=d.s[d.s.length-1];let vx=(b.x-a.x)/Math.max(1,b.t-a.t);if(performance.now()-b.t>90)vx=0;
- /* a tap waits 250 ms for a second one: a double tap is 就這家, a single tap 看詳細 */
+ /* a tap waits 250 ms for a second one: a double tap is 就这家, a single tap 看详细 */
  if(e.type==='pointerup'&&!d.moved&&Math.hypot(e.clientX-d.sx,e.clientY-d.sy)<8&&performance.now()-d.t0<400){springBack(0,0);
   if(tapT){clearTimeout(tapT);tapT=0;decide()}else tapT=setTimeout(()=>{tapT=0;detail()},250);return}
  let dir=0;if(pos.x>105||(vx>.45&&pos.x>24))dir=1;else if(pos.x<-105||(vx<-.45&&pos.x<-24))dir=-1;
@@ -453,7 +453,7 @@ function fling(dir,vx){flinging=true;T[0].el.classList.add('fly');cancelAnimatio
 /* 丟掉: the ticket leaves and the next one prints */
 function commit(){const tk=T.shift();tk.el.remove();flinging=false;repick=true;pos={x:0,y:0,r:0,sign:1};layout(true);buzz(12);
  mood('droop',650);live(t('discarded',{name:nameOf(tk.p)}));setTimeout(()=>{repick=false;pick(true,tk.p.i);syncStart()},140)}
-/* 就這家: the stamp slams onto the chosen ticket, held a beat so it reads before the sheet opens */
+/* 就这家: the stamp slams onto the chosen ticket, held a beat so it reads before the sheet opens */
 function stampIt(tk){const s=$('.bst',tk.el);tk.yes.style.opacity=0;s.classList.add('on');if(RM){sfx.thunk();buzz(18);mood('happy',900);return}
  restart(s,'slam');
  const sh=document.createElement('i');sh.className='bsh';tk.in.append(sh);const c='translate(-50%,-50%) ';
@@ -470,7 +470,7 @@ on($('#ok-btn'),'click',()=>decide());on($('#look-btn'),'click',detail);
 let choosing=false;
 function hold(){return new Promise(r=>{if(RM)return setTimeout(r,400);let done=false;const fire=()=>{if(done)return;done=true;clearTimeout(id);removeEventListener('pointerdown',fire,true);r()},id=setTimeout(fire,400);
  setTimeout(()=>{if(!done)addEventListener('pointerdown',fire,true)},60)})}// a tap skips the stamp hold, like it skips the print
-/* 就這家 on the top ticket; nothing is recorded. inSheet re-renders the open sheet, so the stamp lands on its header */
+/* 就这家 on the top ticket; nothing is recorded. inSheet re-renders the open sheet, so the stamp lands on its header */
 async function decide(inSheet){const tk=T[0];if(!tk||printing||flinging||drag||choosing)return;if(tk.done){if(!inSheet)detail();return}
  choosing=true;try{tk.done=true;rn=0;
   if(inSheet){$('.bst',tk.el).classList.add('on');tk.yes.style.opacity=0;inSheet();const h=$('#r-stamp');if(h&&!RM)restart(h,'slam');sfx.thunk();buzz(20)}
@@ -499,7 +499,7 @@ on(spanel,'pointerup',sEnd);on(spanel,'pointercancel',sEnd);
 
 const googleUrl=p=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent([p.n,p.a].filter(Boolean).join(' '));
 const appleUrl=p=>`https://maps.apple.com/place?name=${encodeURIComponent(p.n)}&coordinate=${p.y},${p.x}`;
-const embedUrl=p=>`https://www.google.com/maps/embed/v1/place?key=${encodeURIComponent(window.EMBED_KEY)}&language=${LANG==='zh'?'zh-TW':'en'}&q=${encodeURIComponent(p.a?`${p.n}, ${p.a}`:`${p.y},${p.x}`)}`;
+const embedUrl=p=>`https://www.google.com/maps/embed/v1/place?key=${encodeURIComponent(window.EMBED_KEY)}&language=${LANG==='zh'?'zh-CN':'en'}&q=${encodeURIComponent(p.a?`${p.n}, ${p.a}`:`${p.y},${p.x}`)}`;
 // The iframe sends the full page URL as referrer, because the key only accepts this site's pages.
 const mapHTML=p=>window.EMBED_KEY?`<details class="dmap" open><summary>${t('mapTitle')}</summary><iframe src="${esc(embedUrl(p))}" title="${esc(t('mapTitle')+': '+p.n)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><p class="cap">${t('mapCap')}</p></details>`:'';
 /* 分享: only the public details (name, address, map link). The phone's share sheet, else copy */
