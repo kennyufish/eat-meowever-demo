@@ -350,3 +350,8 @@ svg.cat{display:block;width:100%;height:auto;overflow:visible}
 /* Chinese names are Simplified; Noto Serif TC has no Simplified forms, so they use a system SC serif (as the app does for 简体). */
 .zhn{font-family:"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif!important}
 .credits span:empty+br{display:none}
+/* Chinese UI is Simplified: Huninn and Noto Serif TC are Traditional, so zh-Hans uses a Resource Han Rounded SC subset and system SC serifs. */
+@font-face{font-family:"EatMeowever UI SC";src:url("fonts/eatmeowever-ui-sc.woff2") format("woff2");font-weight:400;font-display:swap}
+:root[lang="zh-Hans"]{--font:"EatMeowever UI SC","EatMeowever Latin","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+--latin:"EatMeowever Latin","EatMeowever UI SC",ui-rounded,system-ui,sans-serif;
+--serif:"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;--mono:"EatMeowever Mono","EatMeowever UI SC",ui-monospace,Menlo,monospace}
