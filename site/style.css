@@ -347,3 +347,6 @@ svg.cat{display:block;width:100%;height:auto;overflow:visible}
 .lnote{margin:10px 2px 0;font-size:13px;color:var(--ink-2)}
 .srow a{color:inherit}
 .ht .sp{display:inline-block;width:.3em}
+/* Chinese names are Simplified; Noto Serif TC has no Simplified forms, so they use a system SC serif (as the app does for 简体). */
+.zhn{font-family:"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif!important}
+.credits span:empty+br{display:none}

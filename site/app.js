@@ -31,7 +31,7 @@ const W={
   brand:'吃什喵茶餐廳',head:'點菜單',table:'桌 {t}',dish:'菜色',kind:'分類',area:'地區',addr:'地址',distance:'距離',footer:'謝謝光臨 · 歡迎再來',stamp:'就是它',
   ticketLabel:'點菜單：{name}，{kind}。按 Enter 就這家，右方向鍵看詳細，左方向鍵丟掉',
   lookTag:'今天吃這家？',chosenTag:'今天就吃這家',again:'再選一家',share:'分享',copied:'已複製，貼給朋友吧',copyFailed:'無法複製，請手動複製：{name}',
-  mapTitle:'地圖',mapCap:'地圖由 Google 提供，用店名和地址搜尋，圖釘可能有點偏。',noAddr:'資料沒有地址',caveat:'店名以英文原名為主，營業狀態以 Google Maps 為準。',places:'{n} 家',chosenLive:'選好了：{name}',
+  mapTitle:'地圖',mapCap:'地圖由 Google 提供，用店名和地址搜尋，圖釘可能有點偏。',noAddr:'資料沒有地址',caveat:'店名以英文原名為主，部分附中文名；營業狀態以 Google Maps 為準。',orig:'原名',zhCredit:'中文店名 © OpenStreetMap 貢獻者（ODbL）、Name Suggestion Index（BSD-3）',places:'{n} 家',chosenLive:'選好了：{name}',
   cat:'分類',all:'全部',food:'吃的',drink:'喝的',dessert:'甜點',cuisine:'菜系',anyCuisine:'不限',more:'更多篩選',distanceLabel:'距離',unitLabel:'單位',km:'公里',mi:'英里',done:'完成',
   where:'位置',near:'在 {x} 附近',change:'改位置',me:'你的位置',countIn:'符合條件 <b id="fcount">{n}</b> 家',
   locTitle:'你在哪裡？',locSub:'這個 demo 只有加州。位置只留在這個瀏覽器，不會傳出去。',useMine:'用我的位置',locating:'定位中…',
@@ -52,7 +52,7 @@ const W={
   brand:'EatMeowever Diner',head:'ORDER',table:'Table {t}',dish:'Dish',kind:'Type',area:'Area',addr:'Address',distance:'Distance',footer:'Thank you · Come again',stamp:'THIS ONE',
   ticketLabel:'Order ticket: {name}, {kind}. Enter to choose it, right arrow for details, left arrow to discard',
   lookTag:'Eat here today?',chosenTag:'Eating here today',again:'Pick another',share:'Share',copied:'Copied. Paste it to a friend',copyFailed:"Couldn't copy. Copy it by hand: {name}",
-  mapTitle:'Map',mapCap:'Map by Google, found by name and address, so the pin can be a little off.',noAddr:'No address in the data',caveat:'Names are as listed in the source, mostly in English. Check Google Maps for opening hours and status.',places:'{n} places',chosenLive:'Chosen: {name}',
+  mapTitle:'Map',mapCap:'Map by Google, found by name and address, so the pin can be a little off.',noAddr:'No address in the data',caveat:'Names are as listed in the source, mostly in English. Check Google Maps for opening hours and status.',orig:'Name',zhCredit:'',places:'{n} places',chosenLive:'Chosen: {name}',
   cat:'Category',all:'All',food:'Food',drink:'Drinks',dessert:'Sweets',cuisine:'Cuisine',anyCuisine:'Any',more:'More filters',distanceLabel:'Distance',unitLabel:'Unit',km:'km',mi:'mi',done:'Done',
   where:'Location',near:'Near {x}',change:'Change',me:'you',countIn:'<b id="fcount">{n}</b> match',
   locTitle:'Where are you?',locSub:'This demo covers California only. Your location stays in this browser and is never sent anywhere.',useMine:'Use my location',locating:'Locating…',
@@ -91,6 +91,8 @@ const typeLabel=c=>(LANG==='zh'&&ZHTYPE[c])||(c||'restaurant').replace(/_/g,' ')
 const areaOf=p=>(p.a||'').split(', ').slice(-1)[0]||'—',streetOf=p=>(p.a||'').split(', ').slice(0,-1).join(', ')||t('noAddr');
 // The app shows Latin letters in restaurant names in capitals (src/domain/locale.ts displayRestaurantName).
 const shown=n=>n.replace(/\p{Script=Latin}+/gu,s=>s.toUpperCase());
+// The Chinese name (Simplified, from OpenStreetMap or the Name Suggestion Index) shows only when the page is in Chinese.
+const zhOf=p=>LANG==='zh'&&p.z||'',nameOf=p=>zhOf(p)||shown(p.n),nameCls=p=>zhOf(p)?' zhn':'';
 const CA={s:32.5,n:42.1,w:-124.5,e:-114.1};
 const CITIES=[['Los Angeles','洛杉磯',34.0522,-118.2437],['San Francisco','舊金山',37.7749,-122.4194],['San Diego','聖地牙哥',32.7157,-117.1611],['San Jose','聖荷西',37.3382,-121.8863],
  ['Sacramento','沙加緬度',38.5816,-121.4944],['Oakland','奧克蘭',37.8044,-122.2712],['Berkeley','柏克萊',37.8715,-122.273],['Palo Alto','帕羅奧圖',37.4419,-122.143],
@@ -100,13 +102,16 @@ const CITIES=[['Los Angeles','洛杉磯',34.0522,-118.2437],['San Francisco','�
 /** Great-circle distance in km. */
 function kmTo(a,b){const r=Math.PI/180,dLat=(b.y-a.y)*r,dLon=(b.x-a.x)*r,h=Math.sin(dLat/2)**2+Math.cos(a.y*r)*Math.cos(b.y*r)*Math.sin(dLon/2)**2;return 12742*Math.asin(Math.sqrt(h))}
 console.assert(Math.abs(kmTo({y:34.0522,x:-118.2437},{y:37.7749,x:-122.4194})-559)<5,'LA to SF is about 559 km');
-let META=null;const tiles=new Map();
+let META=null;const tiles=new Map(),zhTiles=new Map();
 /** The places within km of at, from the tiles that cover the circle; a tile with no places is not in META.tiles and is skipped. */
 async function placesAround(at,km){const{latStep,lonStep}=META,have=new Set(META.tiles),dLat=km/111,dLon=km/(111*Math.cos(at.y*Math.PI/180)),keys=[];
  for(let i=Math.floor((at.y-dLat)/latStep);i<=Math.floor((at.y+dLat)/latStep);i++)for(let j=Math.floor((at.x-dLon)/lonStep);j<=Math.floor((at.x+dLon)/lonStep);j++)if(have.has(`${i}_${j}`))keys.push(`${i}_${j}`);
  const res=await Promise.allSettled(keys.map(k=>{if(!tiles.has(k))tiles.set(k,fetch(`data/t/${k}.json`,{signal:AbortSignal.timeout?.(15000)}).then(r=>r.ok?r.json():Promise.reject(r.status)).catch(e=>{tiles.delete(k);throw e}));return tiles.get(k)}));
  // A few missing tiles still leave a usable draw; the next call retries them.
  if(keys.length&&res.every(r=>r.status==='rejected'))throw res[0].reason;
+ if(LANG==='zh'){const zk=new Set(META.zhTiles||[]);// a missing Chinese file only means English names
+  await Promise.allSettled(keys.map((k,i)=>{if(!zk.has(k)||res[i].status!=='fulfilled')return;if(!zhTiles.has(k))zhTiles.set(k,fetch(`data/zh/${k}.json`,{signal:AbortSignal.timeout?.(15000)}).then(r=>r.ok?r.json():Promise.reject(r.status)).catch(e=>{zhTiles.delete(k);throw e}));
+   return zhTiles.get(k).then(z=>{for(const p of res[i].value)if(z[p.i])p.z=z[p.i]})}))}
  return res.flatMap(r=>r.value??[]).map(p=>({...p,d:kmTo(at,p)})).filter(p=>p.d<=km)}
 
 /* ---------- motion helpers (from the prototype) ---------- */
@@ -275,15 +280,15 @@ function mkTicket(p,done){orderNo++;const now=new Date(),hm=String(now.getHours(
  const el=document.createElement('div');el.className='tk c-'+catOf(p.c);
  el.innerHTML=`<div class="tk-in"><div class="ln br">${CATSVG}${t('brand')}</div><div class="ln hd">${t('head')}</div>
 <div class="ln mt"><span>No.${String(orderNo).padStart(4,'0')} · ${t('table',{t:String(1+orderNo%12).padStart(2,'0')})}</span><span>${day} ${hm}</span></div><div class="ln hr"></div>
-<div class="ln dish"><span class="k">${t('dish')}</span><span class="v">${done?esc(shown(p.n)):'——'}</span></div><div class="ln hr"></div>
-${kv('kind',esc(typeLabel(p.c)))}${kv('area',esc(areaOf(p)))}${kv('addr',esc(streetOf(p)))}${kv('distance',dstr(p.d))}
+<div class="ln dish"><span class="k">${t('dish')}</span><span class="v${done?nameCls(p):''}">${done?esc(nameOf(p)):'——'}</span></div><div class="ln hr"></div>
+${kv('kind',esc(typeLabel(p.c)))}${zhOf(p)?kv('orig',esc(shown(p.n))):kv('area',esc(areaOf(p)))}${kv('addr',esc(zhOf(p)?p.a||t('noAddr'):streetOf(p)))}${kv('distance',dstr(p.d))}
 <div class="ln ft">${t('footer')}</div>${ZZ}<span class="bst${done?' on':''}">${t('stamp')}</span><span class="dl yes">${t('look')}</span><span class="dl no">${t('discard')}</span></div>`;
  if(done)$$('.ln',el).forEach(l=>l.classList.add('on'));
  return{el,p,tilt:rnd(-1.6,1.6),ord:orderNo,in:$('.tk-in',el),yes:$('.yes',el),no:$('.no',el),done:false}}
 function layout(animate){
  while(T.length>5)T.pop().el.remove();
  T.forEach((tk,i)=>{const el=tk.el,to=pose(i,tk);el.style.zIndex=20-i;el.classList.toggle('is-top',!i);el.hidden=i>3;
-  el.inert=!!i;if(!i){el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',t('ticketLabel',{name:tk.p.n,kind:typeLabel(tk.p.c)}))}
+  el.inert=!!i;if(!i){el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',t('ticketLabel',{name:nameOf(tk.p),kind:typeLabel(tk.p.c)}))}
   const from=el.style.transform;if(animate&&from&&from!==to)A(el,[{transform:from},{transform:to}],{duration:SP.snap.dur,easing:SP.snap.easing});el.style.transform=to});
  syncStart();updCtl()}
 /* First-visit state: an empty pile shows one big start button and hides the control row (visibility, so the pile measurement never changes). */
@@ -364,11 +369,11 @@ async function pick(auto,discard){
  const L=$$('.ln',tk.el),di=L.findIndex(l=>l.classList.contains('dish')),v=$('.v',L[di]);
  for(let i=0;i<=di;i++){feed(tk,L[i]);await step(i<di?55:60)}
  cpaws.classList.add('tap');
- const names=pool.map(p=>shown(p.n));let d=42,last='';
+ const names=pool.map(nameOf);let d=42,last='';
  while(d<180&&!skipping&&!RM){let n;do n=names[Math.random()*names.length|0];while(n===last&&names.length>1);v.textContent=last=n;fitV(v,false);
   v.animate([{transform:'translateY(-30%)',opacity:.35},{transform:'none',opacity:.9}],{duration:Math.min(d,80),fill:'forwards'});await step(d);d*=1.22}
  cpaws.classList.remove('tap');v.getAnimations().forEach(a=>a.cancel());
- v.textContent=shown(win.n);fitV(v);A(v,[{transform:'scale(1.16)'},N0],BO);if(fate)ssr(tk);
+ v.textContent=nameOf(win);v.className='v'+nameCls(win);fitV(v);A(v,[{transform:'scale(1.16)'},N0],BO);if(fate)ssr(tk);
  await step(150);
  for(let i=di+1;i<L.length;i++){feed(tk,L[i]);await step(46)}
  tk.el.style.transform='translateY(-18px)';A(tk.el,[{transform:'translateY(18px)'},{transform:'translateY(0)'}],{duration:skipping?80:200*K,easing:E,composite:'add'});
@@ -386,7 +391,7 @@ async function pick(auto,discard){
  await wait(RM?0:dd);
  printing=false;skipping=false;pileEl.classList.remove('feeding');counter.classList.remove('busy');delete root.dataset.printing;skipper.hidden=true;pickBtn.removeAttribute('aria-busy');
  if(tipSkip){tipSkip=false;store.set('skiptip','1')}
- updCtl();setAway(false);live(t('printedLive',{name:win.n+(fate?' ('+t('fate')+')':'')}));
+ updCtl();setAway(false);live(t('printedLive',{name:nameOf(win)+(fate?' ('+t('fate')+')':'')}));
  if(refocus){refocus=false;const a=document.activeElement;if((!a||a===document.body)&&T[0])T[0].el.focus({preventScroll:true})}}
 /* 命中註定 = an SSR pull: flash, slow rays behind the pile, a gold-foil stamp in the header and a star burst */
 const STAR='<svg viewBox="0 0 24 24"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z"/></svg>';
@@ -447,7 +452,7 @@ function fling(dir,vx){flinging=true;T[0].el.classList.add('fly');cancelAnimatio
  last=performance.now();raf=requestAnimationFrame(st)}
 /* 丟掉: the ticket leaves and the next one prints */
 function commit(){const tk=T.shift();tk.el.remove();flinging=false;repick=true;pos={x:0,y:0,r:0,sign:1};layout(true);buzz(12);
- mood('droop',650);live(t('discarded',{name:tk.p.n}));setTimeout(()=>{repick=false;pick(true,tk.p.i);syncStart()},140)}
+ mood('droop',650);live(t('discarded',{name:nameOf(tk.p)}));setTimeout(()=>{repick=false;pick(true,tk.p.i);syncStart()},140)}
 /* 就這家: the stamp slams onto the chosen ticket, held a beat so it reads before the sheet opens */
 function stampIt(tk){const s=$('.bst',tk.el);tk.yes.style.opacity=0;s.classList.add('on');if(RM){sfx.thunk();buzz(18);mood('happy',900);return}
  restart(s,'slam');
@@ -470,7 +475,7 @@ async function decide(inSheet){const tk=T[0];if(!tk||printing||flinging||drag||c
  choosing=true;try{tk.done=true;rn=0;
   if(inSheet){$('.bst',tk.el).classList.add('on');tk.yes.style.opacity=0;inSheet();const h=$('#r-stamp');if(h&&!RM)restart(h,'slam');sfx.thunk();buzz(20)}
   else{stampIt(tk);updCtl();await hold();openResult(tk.p)}
-  live(t('chosenLive',{name:tk.p.n}))}finally{choosing=false;updCtl()}}
+  live(t('chosenLive',{name:nameOf(tk.p)}))}finally{choosing=false;updCtl()}}
 
 /* ---------- sheets ---------- */
 const sheet=$('#sheet'),spanel=$('#spanel'),sbody=$('#sheet-body');let lastFocus=null,closing=false,onClose=null,openedAt=0;
@@ -498,12 +503,12 @@ const embedUrl=p=>`https://www.google.com/maps/embed/v1/place?key=${encodeURICom
 // The iframe sends the full page URL as referrer, because the key only accepts this site's pages.
 const mapHTML=p=>window.EMBED_KEY?`<details class="dmap" open><summary>${t('mapTitle')}</summary><iframe src="${esc(embedUrl(p))}" title="${esc(t('mapTitle')+': '+p.n)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><p class="cap">${t('mapCap')}</p></details>`:'';
 /* 分享: only the public details (name, address, map link). The phone's share sheet, else copy */
-async function share(p){const text=p.n+'\n'+(p.a||''),url=googleUrl(p);
+async function share(p){const text=[zhOf(p),p.n].filter(Boolean).join(' ')+'\n'+(p.a||''),url=googleUrl(p);
  if(navigator.share)try{await navigator.share({title:p.n,text,url});return}catch(e){if(e.name==='AbortError')return}
  (navigator.clipboard?navigator.clipboard.writeText(text+'\n'+url):Promise.reject()).then(()=>toast(t('copied')),()=>toast(t('copyFailed',{name:p.n})))}
 function openResult(p){const tk=T[0]&&T[0].p===p?T[0]:null;
  const html=()=>{const done=tk&&tk.done;
-  return`<div class="rhead c-${catOf(p.c)}"><span class="rtag">${t(done?'chosenTag':'lookTag')}</span><h2 id="sh-title" class="rname">${esc(shown(p.n))}</h2><p class="rmeta">${esc(p.a||t('noAddr'))}</p><span class="bst${done?' on':''}" id="r-stamp">${done?t('stamp'):''}</span></div>
+  return`<div class="rhead c-${catOf(p.c)}"><span class="rtag">${t(done?'chosenTag':'lookTag')}</span><h2 id="sh-title" class="rname${nameCls(p)}">${esc(nameOf(p))}</h2><p class="rmeta">${esc([zhOf(p)&&shown(p.n),p.a||t('noAddr')].filter(Boolean).join(' · '))}</p><span class="bst${done?' on':''}" id="r-stamp">${done?t('stamp'):''}</span></div>
 <p class="fline">${dstr(p.d)} · ${esc(typeLabel(p.c))}</p>${mapHTML(p)}<p class="fnote">${t('caveat')}</p>
 ${done?'':`<div class="acts"><button id="r-ok" class="btn pri">${t('choose')}</button></div>`}
 <div class="gorow"><a class="btn dstatus gobtn${done?' pri':''}" href="${esc(googleUrl(p))}" target="_blank" rel="noopener">Google Maps</a><a class="btn dstatus gobtn" href="${esc(appleUrl(p))}" target="_blank" rel="noopener">Apple Maps</a><button class="btn dstatus shbtn" id="r-share" type="button" aria-label="${t('share')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12v7.5h14V12"/></svg></button></div>
@@ -557,12 +562,12 @@ function openSettings(){if(printing)return;wobble($('svg',$('#set-btn')));
 <li class="sopt"><span>${t('appearance')}</span>${seg('s-theme',[['',t('themeSystem')],['light',t('themeLight')],['dark',t('themeDark')]],th)}</li>
 <li class="sopt"><span>${t('language')}</span>${seg('s-lang',[['zh','中文'],['en','English']],LANG)}</li>
 <li><label class="srow switch noarr" for="s-snd"><span>${t('sound')}</span><input type="checkbox" id="s-snd" role="switch"${SND?' checked':''}><span class="track" aria-hidden="true"><span class="knob"></span></span></label></li></ul>
-<p class="credits">${t('credit')} <a href="https://overturemaps.org" target="_blank" rel="noopener">Overture Maps Foundation</a> · CDLA-Permissive-2.0, Apache-2.0, CC0-1.0 · <a href="https://github.com/kennyufish/eat-meowever-demo#data-and-credits" target="_blank" rel="noopener">${t('creditsLink')}</a><br>${t('privacy')}</p>
+<p class="credits">${t('credit')} <a href="https://overturemaps.org" target="_blank" rel="noopener">Overture Maps Foundation</a> · CDLA-Permissive-2.0, Apache-2.0, CC0-1.0 · <a href="https://github.com/kennyufish/eat-meowever-demo#data-and-credits" target="_blank" rel="noopener">${t('creditsLink')}</a>${t('zhCredit')?'<br>'+t('zhCredit'):''}<br>${t('privacy')}</p>
 <div class="acts"><button id="s-done" class="btn pri">${t('done')}</button></div>`,'#s-theme [aria-pressed="true"]');
  sbody.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='s-done'){closeSheet();return}
   const g=b.closest('.seg');if(!g)return;$$('button',g).forEach((x,i)=>{x.setAttribute('aria-pressed',x===b);if(x===b)g.style.setProperty('--i',i)});
   if(g.id==='s-theme')setTheme(b.dataset.v);
-  if(g.id==='s-lang'&&b.dataset.v!==LANG){LANG=b.dataset.v;store.set('lang',LANG);if(LOC&&LOC.label===W[LANG==='zh'?'en':'zh'].me)LOC.label=t('me');applyI18n();fitTicket();updCount();openSettings()}};
+  if(g.id==='s-lang'&&b.dataset.v!==LANG){LANG=b.dataset.v;store.set('lang',LANG);if(LOC&&LOC.label===W[LANG==='zh'?'en':'zh'].me)LOC.label=t('me');applyI18n();fitTicket();refresh();openSettings()}};
  $('#s-snd').onchange=e=>setSnd(e.target.checked)}
 on($('#set-btn'),'click',()=>{if(sheet.hidden)openSettings()});
 addEventListener('resize',()=>{drawPrn();fitTicket();lookStart()});
