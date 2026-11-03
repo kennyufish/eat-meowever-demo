@@ -47,7 +47,8 @@ def main():
     tiles, licenses = collections.defaultdict(list), collections.Counter()
     for row in table.to_pylist():
         address = (row['addresses'] or [None])[0] or {}
-        if address.get('region') != 'CA' or row['status'] not in (None, 'open') or not (row['name'] or '').strip():
+        # Only places Overture marks as open; an empty status is too often a closed place.
+        if address.get('region') != 'CA' or row['status'] != 'open' or not (row['name'] or '').strip():
             continue
         licenses.update({s.get('license') or 'unknown' for s in row['licenses'] or []})
         line = ', '.join(p for p in (address.get('freeform'), address.get('locality')) if p)
