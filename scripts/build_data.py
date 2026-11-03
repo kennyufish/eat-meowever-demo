@@ -3,11 +3,13 @@
 Run: pip install pyarrow && python scripts/build_data.py [release]
 Reads Overture's public S3 bucket anonymously; no account or key is needed.
 """
-import collections, json, math, pathlib, shutil, sys
+import collections, json, math, pathlib, random, shutil, sys
 
 import pyarrow.compute as pc
 import pyarrow.dataset as ds
 import pyarrow.fs as fs
+
+import zh_names
 
 BUCKET = 'overturemaps-us-west-2/release'
 # Tile size in degrees; the page computes the same keys (site/app.js).
@@ -41,10 +43,11 @@ def main():
         'id': ds.field('id'), 'name': ds.field('names', 'primary'), 'cat': ds.field('taxonomy', 'primary'),
         'addresses': ds.field('addresses'), 'status': ds.field('operating_status'), 'conf': ds.field('confidence'),
         'lon': ds.field('bbox', 'xmin'), 'lat': ds.field('bbox', 'ymin'), 'licenses': ds.field('sources'),
+        'brand': ds.field('brand', 'names', 'primary'),
     })
     print(f'{release}: {table.num_rows} rows in the box', flush=True)
 
-    tiles, licenses = collections.defaultdict(list), collections.Counter()
+    tiles, licenses, brands = collections.defaultdict(list), collections.Counter(), {}
     for row in table.to_pylist():
         address = (row['addresses'] or [None])[0] or {}
         # Only places Overture marks as open; an empty status is too often a closed place.
@@ -56,6 +59,7 @@ def main():
             'i': row['id'][-8:], 'n': row['name'].strip(), 'c': row['cat'] or '', 'a': line,
             'y': round(row['lat'], 5), 'x': round(row['lon'], 5), 'p': round(row['conf'], 2),
         })
+        brands[(tile_key(row['lat'], row['lon']), row['id'][-8:])] = row['brand'] or ''
 
     count = sum(map(len, tiles.values()))
     assert count > 50_000, f'only {count} places; refusing to replace the data'
@@ -63,8 +67,27 @@ def main():
     (OUT / 't').mkdir(parents=True)
     for key, places in tiles.items():
         (OUT / 't' / f'{key}.json').write_text(json.dumps(places, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+    # Chinese names go in their own files (data/zh, ODbL), loaded only when the page is in Chinese.
+    # A failure here ships the data without them rather than blocking the monthly refresh.
+    zh_tiles = collections.defaultdict(dict)
+    try:
+        found = zh_names.find([(key, {**p, 'b': brands[(key, p['i'])]}) for key, places in tiles.items() for p in places])
+        for (key, short), (zh, _) in found.items():
+            zh_tiles[key][short] = zh
+        (OUT / 'zh').mkdir()
+        for key, names in zh_tiles.items():
+            (OUT / 'zh' / f'{key}.json').write_text(json.dumps(names, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+        by_id = {(key, p['i']): p for key, places in tiles.items() for p in places}
+        for src in ('osm', 'nsi'):
+            sample = [k for k, v in found.items() if v[1] == src]
+            random.Random(7).shuffle(sample)
+            for k in sample[:20 if src == 'osm' else 10]:
+                print(f'  check {src}: {by_id[k]["n"]!r} -> {found[k][0]}')
+    except Exception as e:  # network or service trouble
+        print(f'WARNING: no Chinese names this run: {e!r}')
+        zh_tiles.clear()
     meta = {'release': release, 'places': count, 'tiles': sorted(tiles), 'latStep': LAT_STEP, 'lonStep': LON_STEP,
-            'licenses': dict(licenses.most_common())}
+            'licenses': dict(licenses.most_common()), 'zhTiles': sorted(zh_tiles), 'zhPlaces': sum(map(len, zh_tiles.values()))}
     (OUT / 'meta.json').write_text(json.dumps(meta, separators=(',', ':')), encoding='utf-8')
     print(f'{count} places in {len(tiles)} tiles; source licenses: {meta["licenses"]}')
 
