@@ -34,6 +34,8 @@ Places data © [Overture Maps Foundation](https://overturemaps.org), from the re
 - Foursquare: [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0), Copyright 2024 Foursquare Labs, Inc. See the [Foursquare places NOTICE](https://opensource.foursquare.com/places-notice-txt/). The data was transformed to the Overture schema, and this project trims and re-tiles it further.
 - AllThePlaces: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 
+Chinese names: when the page is in Chinese, some places also show a Chinese name in Simplified Chinese. They come from [OpenStreetMap](https://www.openstreetmap.org/copyright) (`name:zh-Hans`, `name:zh`, `name:zh-Hant` or a Chinese `name` on a dining place within 150 m whose name matches) and, for chains, from the [Name Suggestion Index](https://github.com/osmlab/name-suggestion-index). `scripts/zh_names.py` fetches the OSM side from Geofabrik's free [Postpass](https://postpass.geofabrik.de/) service each month and converts Traditional names with OpenCC. A place with no confident match keeps only its English name. These names are © OpenStreetMap contributors under the [ODbL](https://opendatacommons.org/licenses/odbl/), with brand names from the Name Suggestion Index (BSD 3-Clause). They sit in their own files, `data/zh/*.json`, which are offered under the ODbL. That is a different license from the code. See [NOTICE](NOTICE).
+
 Only places that Overture marks as open are kept. Names are shown as listed in the source, mostly in English. Place data can be wrong or out of date, so check Google Maps for opening hours and status before you go.
 
 Fonts: subsets of Huninn, Fredoka, IBM Plex Mono and Noto Serif TC, under the SIL Open Font License (`site/fonts/*-OFL.txt`).
