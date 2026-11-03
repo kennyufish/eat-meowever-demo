@@ -31,7 +31,7 @@ const W={
   brand:'吃什喵茶餐厅',head:'点菜单',table:'桌 {t}',dish:'菜色',kind:'分类',area:'地区',addr:'地址',distance:'距离',footer:'谢谢光临 · 欢迎再来',stamp:'就是它',
   ticketLabel:'点菜单：{name}，{kind}。按 Enter 就这家，右方向键看详细，左方向键丢掉',
   lookTag:'今天吃这家？',chosenTag:'今天就吃这家',again:'再选一家',share:'分享',copied:'已复制，发给朋友吧',copyFailed:'无法复制，请手动复制：{name}',
-  mapTitle:'地图',mapCap:'地图由 Google 提供，用店名和地址搜索，图钉可能有点偏。',noAddr:'数据没有地址',caveat:'店名以英文原名为主，部分附中文名；营业状态以 Google Maps 为准。',orig:'原名',zhCredit:'中文店名 © OpenStreetMap 贡献者（ODbL）、Name Suggestion Index（BSD-3）',places:'{n} 家',chosenLive:'选好了：{name}',
+  mapTitle:'地图',mapCap:'地图由 Google 提供，用店名和地址搜索，图钉可能有点偏。营业时间请在 Google Maps 查看。',hide:'已关门/不是餐厅',hid:'已隐藏 {name}，以后不会再抽到',undo:'撤销',hiddenN:'已隐藏的店：{n} 家',clear:'清除',noAddr:'数据没有地址',caveat:'店名以英文原名为主，部分附中文名；营业状态以 Google Maps 为准。',orig:'原名',zhCredit:'中文店名 © OpenStreetMap 贡献者（ODbL）、Name Suggestion Index（BSD-3）',places:'{n} 家',chosenLive:'选好了：{name}',
   cat:'分类',all:'全部',food:'吃的',drink:'喝的',dessert:'甜点',cuisine:'菜系',anyCuisine:'不限',more:'更多筛选',distanceLabel:'距离',unitLabel:'单位',km:'公里',mi:'英里',done:'完成',
   where:'位置',near:'在 {x} 附近',change:'改位置',me:'你的位置',countIn:'符合条件 <b id="fcount">{n}</b> 家',
   locTitle:'你在哪里？',locSub:'这个 demo 只有加州。位置只留在这个浏览器，不会传出去。',useMine:'用我的位置',locating:'定位中…',
@@ -52,7 +52,7 @@ const W={
   brand:'EatMeowever Diner',head:'ORDER',table:'Table {t}',dish:'Dish',kind:'Type',area:'Area',addr:'Address',distance:'Distance',footer:'Thank you · Come again',stamp:'THIS ONE',
   ticketLabel:'Order ticket: {name}, {kind}. Enter to choose it, right arrow for details, left arrow to discard',
   lookTag:'Eat here today?',chosenTag:'Eating here today',again:'Pick another',share:'Share',copied:'Copied. Paste it to a friend',copyFailed:"Couldn't copy. Copy it by hand: {name}",
-  mapTitle:'Map',mapCap:'Map by Google, found by name and address, so the pin can be a little off.',noAddr:'No address in the data',caveat:'Names are as listed in the source, mostly in English. Check Google Maps for opening hours and status.',orig:'Name',zhCredit:'',places:'{n} places',chosenLive:'Chosen: {name}',
+  mapTitle:'Map',mapCap:'Map by Google, found by name and address, so the pin can be a little off. Check opening hours on Google Maps.',hide:'Closed / not a restaurant',hid:'Hid {name}; it won’t be drawn again',undo:'Undo',hiddenN:'Hidden places: {n}',clear:'Clear',noAddr:'No address in the data',caveat:'Names are as listed in the source, mostly in English. Check Google Maps for opening hours and status.',orig:'Name',zhCredit:'',places:'{n} places',chosenLive:'Chosen: {name}',
   cat:'Category',all:'All',food:'Food',drink:'Drinks',dessert:'Sweets',cuisine:'Cuisine',anyCuisine:'Any',more:'More filters',distanceLabel:'Distance',unitLabel:'Unit',km:'km',mi:'mi',done:'Done',
   where:'Location',near:'Near {x}',change:'Change',me:'you',countIn:'<b id="fcount">{n}</b> match',
   locTitle:'Where are you?',locSub:'This demo covers California only. Your location stays in this browser and is never sent anywhere.',useMine:'Use my location',locating:'Locating…',
@@ -221,9 +221,9 @@ function setSnd(v){SND=v;store.set('sound',v?'1':'0');if(v){ac();sfx.tick()}else
 on(document,'visibilitychange',()=>{if(document.hidden)AC?.suspend?.().catch(()=>{})});
 
 const toastEl=$('#toast');let toastT=0;
-function toast(m){toastEl.textContent=m;toastEl.hidden=false;toastEl.getAnimations().forEach(a=>a.cancel());
+function toast(m,act,fn){toastEl.textContent='';toastEl.append(Object.assign(document.createElement('span'),{textContent:m}));toastEl.classList.toggle('act',!!fn);if(fn){const b=document.createElement('button');b.type='button';b.textContent=act;b.onclick=()=>{clearTimeout(toastT);toastEl.hidden=true;fn()};toastEl.append(b)}toastEl.hidden=false;toastEl.getAnimations().forEach(a=>a.cancel());
  A(toastEl,[{transform:'translateX(-50%) translateY(50px) scale(.8)'},{transform:'translateX(-50%)'}],BO);
- clearTimeout(toastT);toastT=setTimeout(()=>{const a=A(toastEl,[{opacity:1},{opacity:0}],{duration:200,fill:'forwards'});if(a)a.onfinish=()=>{toastEl.hidden=true;a.cancel()};else toastEl.hidden=true},2300)}
+ clearTimeout(toastT);toastT=setTimeout(()=>{const a=A(toastEl,[{opacity:1},{opacity:0}],{duration:200,fill:'forwards'});if(a)a.onfinish=()=>{toastEl.hidden=true;a.cancel()};else toastEl.hidden=true},fn?5000:2300)}
 const fx=$('#fx');
 function tick(el,to){const from=+el.textContent||0;if(from===to||RM){el.textContent=to;return}
  const n=Math.min(Math.abs(to-from),12);let i=0;const go=()=>{i++;el.textContent=Math.round(from+(to-from)*i/n);restart(el,'tick');if(i<n)setTimeout(go,40+i*7)};go()}
@@ -244,7 +244,9 @@ const DEF={cat:'food',kind:0,km:5*KM_MI};
 const S={...DEF};let LOC=null;
 const toU=km=>unit==='mi'?km/KM_MI:km,dstr=km=>(km<.1&&unit==='mi'?'<0.1':toU(km).toFixed(1))+' '+t(unit);
 let POOL=null,LOADERR=false,refTok=0;
-const matches=p=>(S.cat==='all'||catOf(p.c)===S.cat)&&KINDS[S.kind].test(p.c);
+// Places the user marked closed or not a restaurant; kept in memory too, so hiding works for this visit when storage is blocked.
+const HID=new Set((()=>{try{return JSON.parse(store.get('hidden')||'[]')}catch(e){return[]}})()),saveHid=()=>store.set('hidden',HID.size?JSON.stringify([...HID]):null);
+const matches=p=>!HID.has(p.i)&&(S.cat==='all'||catOf(p.c)===S.cat)&&KINDS[S.kind].test(p.c);
 async function refresh(){const tok=++refTok;
  if(!LOC||!META){POOL=null;updCount();return}
  if(!POOL)updCount();
@@ -512,11 +514,12 @@ function openResult(p){const tk=T[0]&&T[0].p===p?T[0]:null;
 <p class="fline">${dstr(p.d)} · ${esc(typeLabel(p.c))}</p>${mapHTML(p)}<p class="fnote">${t('caveat')}</p>
 ${done?'':`<div class="acts"><button id="r-ok" class="btn pri">${t('choose')}</button></div>`}
 <div class="gorow"><a class="btn dstatus gobtn${done?' pri':''}" href="${esc(googleUrl(p))}" target="_blank" rel="noopener">Google Maps</a><a class="btn dstatus gobtn" href="${esc(appleUrl(p))}" target="_blank" rel="noopener">Apple Maps</a><button class="btn dstatus shbtn" id="r-share" type="button" aria-label="${t('share')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12v7.5h14V12"/></svg></button></div>
-<div class="tlinks"><button id="r-again">${t('again')}</button></div>`};
+<div class="tlinks"><button id="r-again">${t('again')}</button><button id="r-hide">${t('hide')}</button></div>`};
  const wire=()=>{sbody.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.id==='r-ok')decide(()=>{const y=spanel.scrollTop;sbody.innerHTML=html();spanel.scrollTop=y});
   else if(b.id==='r-share')share(p);
-  else if(b.id==='r-again')closeSheet().then(()=>pick(false,p.i))}};
+  else if(b.id==='r-again')closeSheet().then(()=>pick(false,p.i));
+  else if(b.id==='r-hide')hide(p)}};
  openSheet(html(),'#r-ok,.gobtn');wire()}
 function openFilters(){if(printing)return;wobble($('svg',fbtn));
  const segI={all:0,food:1,drink:2,dessert:3};
@@ -556,15 +559,21 @@ function openLoc(thenPick,backToFilters){
   navigator.geolocation.getCurrentPosition(({coords})=>{b.disabled=false;const at={y:coords.latitude,x:coords.longitude};
    if(at.y<CA.s||at.y>CA.n||at.x<CA.w||at.x>CA.e){note.textContent=t('locOutside');return}
    setLoc(at,t('me')).then(done)},()=>{b.disabled=false;note.textContent=t('locDenied')},{timeout:12000,maximumAge:300000})}}
+/* 已关门/不是餐厅: the place leaves the pool for good (this browser), its ticket is thrown away and the next one prints */
+function hide(p){HID.add(p.i);saveHid();if(POOL)POOL=POOL.filter(x=>x.i!==p.i);updCount();
+ closeSheet().then(()=>{if(T[0]&&T[0].p===p&&!T[0].done)swipe(-1);else pick(true,p.i)});
+ toast(t('hid',{name:nameOf(p)}),t('undo'),()=>{HID.delete(p.i);saveHid();refresh()})}
 function openSettings(){if(printing)return;wobble($('svg',$('#set-btn')));
  const th=root.dataset.theme||'';const seg=(id,opts,cur)=>`<div class="seg" id="${id}" role="group" style="--n:${opts.length};--i:${Math.max(0,opts.findIndex(o=>o[0]===cur))};--c:var(--sky)"><span class="ind"></span>${opts.map(([v,l])=>`<button data-v="${v}" aria-pressed="${v===cur}">${l}</button>`).join('')}</div>`;
  openSheet(`<h2 id="sh-title" class="sh2">${t('settings')}</h2><ul class="srows">
 <li class="sopt"><span>${t('appearance')}</span>${seg('s-theme',[['',t('themeSystem')],['light',t('themeLight')],['dark',t('themeDark')]],th)}</li>
 <li class="sopt"><span>${t('language')}</span>${seg('s-lang',[['zh','中文'],['en','English']],LANG)}</li>
+<li class="srow noarr"><span id="s-hidn">${t('hiddenN',{n:HID.size})}</span><button id="s-clear" class="btn" type="button"${HID.size?'':' disabled'}>${t('clear')}</button></li>
 <li><label class="srow switch noarr" for="s-snd"><span>${t('sound')}</span><input type="checkbox" id="s-snd" role="switch"${SND?' checked':''}><span class="track" aria-hidden="true"><span class="knob"></span></span></label></li></ul>
 <p class="credits">${t('credit')} <a href="https://overturemaps.org" target="_blank" rel="noopener">Overture Maps Foundation</a> · CDLA-Permissive-2.0, Apache-2.0, CC0-1.0 · <a href="https://github.com/kennyufish/eat-meowever-demo#data-and-credits" target="_blank" rel="noopener">${t('creditsLink')}</a>${t('zhCredit')?'<br>'+t('zhCredit'):''}<br>${t('privacy')}</p>
 <div class="acts"><button id="s-done" class="btn pri">${t('done')}</button></div>`,'#s-theme [aria-pressed="true"]');
  sbody.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='s-done'){closeSheet();return}
+  if(b.id==='s-clear'){HID.clear();saveHid();refresh();$('#s-hidn').textContent=t('hiddenN',{n:0});b.disabled=true;return}
   const g=b.closest('.seg');if(!g)return;$$('button',g).forEach((x,i)=>{x.setAttribute('aria-pressed',x===b);if(x===b)g.style.setProperty('--i',i)});
   if(g.id==='s-theme')setTheme(b.dataset.v);
   if(g.id==='s-lang'&&b.dataset.v!==LANG){LANG=b.dataset.v;store.set('lang',LANG);if(LOC&&LOC.label===W[LANG==='zh'?'en':'zh'].me)LOC.label=t('me');applyI18n();fitTicket();refresh();openSettings()}};
