@@ -37,7 +37,7 @@ const W={
   locTitle:'你在哪里？',locSub:'这个 demo 只有加州。位置只留在这个浏览器，不会传出去。',useMine:'用我的位置',locating:'定位中…',
   locDenied:'拿不到位置，请选一个城市。',locOutside:'你好像不在加州，这个 demo 只有加州的店。请选一个城市。',orCity:'或选城市',
   appearance:'外观',themeSystem:'跟随系统',themeLight:'浅色',themeDark:'深色',sound:'声音',language:'语言',
-  credit:'店家数据：',creditsLink:'授权与来源',privacy:'不用账号、不存任何数据，位置只留在你的设备。',hungry:'先告诉我你在哪喵～',
+  about:'关于',credit:'店家数据：',creditsLink:'授权与来源',privacy:'不用账号、不存任何数据，位置只留在你的设备。',hungry:'先告诉我你在哪喵～',
   pets:['喵～','肚子饿了喵','快点啦','摸摸头 ♡','今天吃什么好喵？'],impatient:['选啦喵！','还在选？','快点啦喵～','喵…又换？','肚子饿啦喵！'],
   kinds:['不限','中式','日式','韩式','东南亚','印度','墨西哥与拉美','披萨与意式','美式','地中海']},
  en:{title:'What shall we eat today?',subtitle:"No need to overthink it. We'll pick one for you.",pile:'A pile of order tickets',filters:'Filters',settings:'Settings',petCat:'Pet the cat',
@@ -58,7 +58,7 @@ const W={
   locTitle:'Where are you?',locSub:'This demo covers California only. Your location stays in this browser and is never sent anywhere.',useMine:'Use my location',locating:'Locating…',
   locDenied:"Couldn't get your location. Pick a city instead.",locOutside:'You seem to be outside California, and this demo only has California places. Pick a city instead.',orCity:'Or pick a city',
   appearance:'Appearance',themeSystem:'System',themeLight:'Light',themeDark:'Dark',sound:'Sound',language:'Language',
-  credit:'Places data:',creditsLink:'Credits & source',privacy:'No account, nothing saved. Your location stays on your device.',hungry:'Tell me where you are, meow~',
+  about:'About',credit:'Places data:',creditsLink:'Credits & source',privacy:'No account, nothing saved. Your location stays on your device.',hungry:'Tell me where you are, meow~',
   pets:['Meow~','Hungry, meow','Hurry and pick!','Head pats ♡','What to eat, meow?'],impatient:['Pick one, meow!','Still choosing?','Hurry up, meow~','Meow… again?',"I'm hungry, meow!"],
   kinds:['Any','Chinese','Japanese','Korean','Southeast Asian','Indian','Mexican & Latin','Pizza & Italian','American','Mediterranean']}};
 let LANG=store.get('lang')||(/^zh/i.test(navigator.language)?'zh':'en');
