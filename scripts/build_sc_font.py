@@ -1,6 +1,6 @@
 """Rebuilds site/fonts/eatmeowever-ui-sc.woff2: the glyphs the Chinese UI uses, from Resource Han Rounded CN Regular (OFL).
 
-Run after changing Chinese text in site/app.js or site/index.html:
+Run after changing Chinese text in site/app.js, site/index.html or site/about/index.html:
   pip install fonttools brotli
   python scripts/build_sc_font.py path/to/ResourceHanRoundedCN-Regular.ttf
 The font is from https://github.com/CyanoHao/Resource-Han-Rounded/releases/tag/v0.990 (RHR-CN-0.990.7z).
@@ -14,7 +14,7 @@ from fontTools.ttLib import TTFont
 SITE = pathlib.Path(__file__).resolve().parent.parent / 'site'
 OUT = SITE / 'fonts' / 'eatmeowever-ui-sc.woff2'
 
-text = (SITE / 'app.js').read_text(encoding='utf-8') + (SITE / 'index.html').read_text(encoding='utf-8')
+text = ''.join((SITE / f).read_text(encoding='utf-8') for f in ('app.js', 'index.html', 'about/index.html'))
 # Plus 月 for the ticket's date, which Intl.DateTimeFormat writes (11月3日).
 wanted = set(range(32, 127)) | {ord(c) for c in text + '月' if ord(c) >= 0xA0}
 font = TTFont(sys.argv[1])
