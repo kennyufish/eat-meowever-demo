@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>关于吃什喵 · About EatMeowever</title>
+<meta name="description" content="EatMeowever (吃什喵): can't decide where to eat? The cat prints you an order ticket for a place nearby. Free demo for California; a full version is on the way.">
+<meta name="theme-color" content="#FFF0F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191321" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+<script>
+// Same stored preferences as the demo (app.js `store`): em-lang is 'zh' or 'en', em-theme is 'light', 'dark' or unset.
+(()=>{const g=k=>{try{return localStorage.getItem('em-'+k)}catch(e){return null}};const r=document.documentElement;
+ const th=g('theme');if(th)r.dataset.theme=th;
+ r.lang=(g('lang')||(/^zh/i.test(navigator.language)?'zh':'en'))==='zh'?'zh-Hans':'en'})();
+</script>
+<style>
+/* About page only; colours, fonts, buttons and the cat come from ../style.css. */
+:root[lang="zh-Hans"] [data-l="en"],:root[lang="en"] [data-l="zh"]{display:none!important}
+.ab .hdr a{color:inherit;text-decoration:none}
+.lt{width:auto;padding:0 12px;font:600 14px var(--latin);color:var(--ink)}
+.ab-hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 0 4px}
+.ab-hero .cat{width:132px;margin-bottom:6px}
+.ab-hero .cat .tail{animation:wag 2.6s ease-in-out infinite}
+.ab-hero .ht{font-size:clamp(26px,8vw,32px)}
+.ab-hero .sub{margin:10px 0 14px;max-width:34em}
+.ab-hero .go{text-decoration:none;margin-bottom:8px}
+.ab-hero .go::after{animation:none}
+.ab h2{margin:34px 0 12px;font-weight:400;font-size:22px;letter-spacing:.03em}
+.ab p{margin:0}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feat li{display:flex;flex-direction:column;gap:8px;padding:10px;list-style:none}
+.feat .big{grid-column:1/-1;flex-direction:row;align-items:center;gap:12px}
+.feat img{display:block;width:100%;height:auto;border:var(--b);border-radius:14px;background:var(--surface-2)}
+.feat .big img{width:52%;flex:none}
+.feat b{display:block;font-weight:400;font-size:16px}
+.feat b~span{font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.ul,.feat{margin:0;padding:0}
+.card{padding:14px 16px}
+.ul li{list-style:none;position:relative;padding-left:18px;margin:6px 0;font-size:14.5px}
+.ul li::before{content:"";position:absolute;left:2px;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--pink);border:1.5px solid var(--line)}
+.ab a{color:inherit}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp h3{margin:0 0 4px;font-weight:400;font-size:17px}
+.cmp .full{background:var(--lemon);color:var(--on-pastel)}
+.cmp .full li::before{background:var(--mint)}
+.wl{display:flex;width:100%;margin-top:16px}
+.wl+p{margin-top:8px;text-align:center;font-size:13px;color:var(--ink-3)}
+@media (max-width:359px){.feat,.cmp{grid-template-columns:1fr}.feat .big{flex-direction:column}.feat .big img{width:100%}}
+</style>
+</head>
+<body>
+<div class="app ab">
+<header class="hdr">
+  <a class="brand" href="../"><b lang="zh-Hans">吃什喵</b><small>EatMeowever</small></a>
+  <button class="ib lt" id="lang" type="button"><span data-l="zh" lang="en">English</span><span data-l="en" lang="zh-Hans">简体中文</span></button>
+</header>
+<main>
+<section class="ab-hero">
+  <svg class="cat cat2" viewBox="0 0 130 100" aria-hidden="true"><defs><clipPath id="c2b"><path d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/></clipPath></defs><ellipse class="sh" cx="65" cy="95" rx="50" ry="5"/>
+<g class="tail"><path class="to" d="M106 84Q125 83 124 64Q123 55 115 53"/><path class="ti" d="M106 84Q125 83 124 64Q123 55 115 53"/></g>
+<path class="ear el" d="M22 54L28 14Q29 8 34 12L56 35Z"/><path class="ear er" d="M108 54L102 14Q101 8 96 12L74 35Z"/>
+<path class="body" d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/><ellipse class="hi" cx="59" cy="58" rx="50" ry="35" clip-path="url(#c2b)"/><path class="bo" d="M65 31C93 31 112 44 115 63C118 81 109 90 93 90H37C21 90 12 81 15 63C18 44 37 31 65 31Z"/>
+<ellipse class="ck" cx="37" cy="74" rx="7" ry="3.8"/><ellipse class="ck" cx="93" cy="74" rx="7" ry="3.8"/>
+<g class="eyes"><ellipse cx="50" cy="64" rx="3.1" ry="4"/><ellipse cx="80" cy="64" rx="3.1" ry="4"/></g>
+<path class="mo" d="M58.5 72.5q3.2 3 6.5 0q3.3 3 6.5 0"/></svg>
+  <h1 class="ht"><span data-l="zh">不知道吃什么？</span><span data-l="en">Can't decide where to eat?</span></h1>
+  <p class="sub"><span data-l="zh">让猫咪帮你印一张点菜单，从附近的餐厅里随机挑一家。打开就能玩，不用注册。</span><span data-l="en">Let the cat print you an order ticket for a random place nearby. Open it and play, no sign-up.</span></p>
+  <a class="go" href="../"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="15.5" rx="5" ry="4.2"/><ellipse cx="5.5" cy="10" rx="2" ry="2.6"/><ellipse cx="9.5" cy="6" rx="2" ry="2.6"/><ellipse cx="14.5" cy="6" rx="2" ry="2.6"/><ellipse cx="18.5" cy="10" rx="2" ry="2.6"/></svg><span data-l="zh">去玩</span><span data-l="en">Try it</span></a>
+</section>
+
+<section aria-labelledby="h-feat">
+  <h2 id="h-feat"><span data-l="zh">怎么玩</span><span data-l="en">How it works</span></h2>
+  <ul class="feat">
+    <li class="stk big"><img src="img/draw.gif" width="270" height="405" alt="抽签动画 / Draw animation" loading="lazy">
+      <div><b><span data-l="zh">一键出单</span><span data-l="en">One tap, one ticket</span></b>
+      <span data-l="zh">猫咪打印机随机印出一家附近的店；不满意就换一张，满意就盖章。</span><span data-l="en">The printer cat prints a random place nearby. Not feeling it? Print another. Like it? Stamp it.</span></div></li>
+    <li class="stk"><img data-l="zh" src="img/zh-filters.jpg" width="360" height="740" alt="筛选：分类、距离、菜系" loading="lazy"><img data-l="en" src="img/en-filters.jpg" width="360" height="740" alt="Filters: category, distance, cuisine" loading="lazy">
+      <b><span data-l="zh">想吃什么自己挑</span><span data-l="en">Pick what you're into</span></b>
+      <span data-l="zh">吃的、喝的、甜点，菜系和距离都能筛。</span><span data-l="en">Food, drinks or sweets, by cuisine and distance.</span></li>
+    <li class="stk"><img data-l="zh" src="img/zh-look.jpg" width="360" height="740" alt="店家详细，可打开 Google Maps 或 Apple Maps" loading="lazy"><img data-l="en" src="img/en-look.jpg" width="360" height="740" alt="Place details with Google Maps and Apple Maps buttons" loading="lazy">
+      <b><span data-l="zh">滑一滑就决定</span><span data-l="en">Swipe to decide</span></b>
+      <span data-l="zh">左滑丢掉，右滑看详细，一键打开地图。</span><span data-l="en">Swipe left to toss, right for details, then open it in Maps.</span></li>
+    <li class="stk big"><img data-l="zh" src="img/zh-city.jpg" width="360" height="740" alt="选位置：用我的位置或选一个加州城市" loading="lazy"><img data-l="en" src="img/en-city.jpg" width="360" height="740" alt="Set location: use my location or pick a California city" loading="lazy">
+      <div><b><span data-l="zh">不用账号</span><span data-l="en">No account</span></b>
+      <span data-l="zh">选一个加州城市，或用你的位置。位置只留在你的设备，什么都不存。</span><span data-l="en">Pick a California city or use your location. It stays on your device; nothing is saved.</span></div></li>
+  </ul>
+</section>
+
+<section aria-labelledby="h-data">
+  <h2 id="h-data"><span data-l="zh">数据与开源</span><span data-l="en">Data and open source</span></h2>
+  <ul class="ul stk card">
+    <li><span data-l="zh">店家数据来自</span><span data-l="en">Places come from the</span> <a href="https://overturemaps.org" target="_blank" rel="noopener">Overture Maps Foundation</a> <span data-l="zh">的 Places 数据集。</span><span data-l="en">Places dataset.</span></li>
+    <li><span data-l="zh">目前只有加州的店。</span><span data-l="en">California only, for now.</span></li>
+    <li><span data-l="zh">代码以 MIT 授权开源。</span><span data-l="en">The code is open source under the MIT License.</span></li>
+    <li><span data-l="zh">部分中文店名来自 OpenStreetMap，按 ODbL 授权（© OpenStreetMap 贡献者）。</span><span data-l="en">Some Chinese names come from OpenStreetMap, under the ODbL (© OpenStreetMap contributors).</span></li>
+    <li><a href="https://github.com/kennyufish/eat-meowever-demo" target="_blank" rel="noopener"><span data-l="zh">GitHub 上的源代码与完整授权说明</span><span data-l="en">Source code and full credits on GitHub</span></a></li>
+  </ul>
+</section>
+
+<section aria-labelledby="h-full">
+  <h2 id="h-full"><span data-l="zh">Demo 与完整版</span><span data-l="en">Demo vs full version</span></h2>
+  <div class="cmp">
+    <div class="stk card"><h3>Demo</h3><ul class="ul">
+      <li><span data-l="zh">附近随机选一家</span><span data-l="en">Random picks nearby</span></li>
+      <li><span data-l="zh">只有加州</span><span data-l="en">California only</span></li>
+      <li><span data-l="zh">什么都不存</span><span data-l="en">Nothing saved</span></li></ul></div>
+    <div class="stk card full"><h3><span data-l="zh">完整版</span><span data-l="en">Full version</span></h3><ul class="ul">
+      <li><span data-l="zh">你自己的餐厅库</span><span data-l="en">Your own restaurant library</span></li>
+      <li><span data-l="zh">用餐记录</span><span data-l="en">Dining history</span></li>
+      <li><span data-l="zh">营业时间</span><span data-l="en">Opening hours</span></li>
+      <li><span data-l="zh">不限加州</span><span data-l="en">Not limited to California</span></li></ul></div>
+  </div>
+  <a class="btn pri wl" id="waitlist" href="https://docs.google.com/forms/d/e/1FAIpQLSfqbF-Y8uDJLhokyjOGuvx20w8rZQnM1GA__J-7JvyoW_cCfA/viewform" target="_blank" rel="noopener"><span data-l="zh">加入完整版 waitlist</span><span data-l="en">Join the waitlist</span></a>
+  <p><span data-l="zh">留下邮箱，有消息时通知你。</span><span data-l="en">Leave your email and we'll let you know.</span></p>
+</section>
+</main>
+<p class="credits"><a href="../"><span data-l="zh">回到 demo</span><span data-l="en">Back to the demo</span></a> · <a href="https://github.com/kennyufish/eat-meowever-demo#data-and-credits" target="_blank" rel="noopener"><span data-l="zh">授权与来源</span><span data-l="en">Credits &amp; source</span></a></p>
+</div>
+<script>
+// Language toggle: flips <html lang> and stores it under the demo's key, so both pages stay in step.
+document.getElementById('lang').onclick=()=>{const r=document.documentElement,zh=r.lang!=='zh-Hans';r.lang=zh?'zh-Hans':'en';
+ try{localStorage.setItem('em-lang',zh?'zh':'en')}catch(e){}};
+</script>
+</body>
+</html>
